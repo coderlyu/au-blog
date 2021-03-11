@@ -1,24 +1,26 @@
 {
   "name": "au-blog",
   "version": "1.0.0",
-  "description": "",
+  "description": "blog",
   "main": "index.js",
   "scripts": {
-    "dev": "vuepress dev docs",
-    "build": "vuepress build docs --dest ./webView",
+    "dev": "cross-env NODE_ENV=development vuepress dev docs",
+    "build": "cross-env NODE_ENV=production vuepress build docs --dest ./webView",
+    "build:sh": "git.sh",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
+  "author": "刘誉 <974257574@qq.com>",
   "license": "ISC",
   "devDependencies": {
+    "dayjs": "^1.10.4",
     "@vuepress/plugin-nprogress": "^1.8.2",
+    "cross-env": "^7.0.3",
     "vuepress": "^1.8.2",
-    "vuepress-theme-vdoing": "^1.8.1"
+    "vuepress-theme-vdoing": "^1.8.1",
+    "vuepress-plugin-one-click-copy": "^1.0.2"
   },
   "dependencies": {
-    "dayjs": "^1.10.4",
     "markdown-it": "^12.0.4",
-    "vuepress-plugin-comment": "^0.7.3",
-    "vuepress-plugin-one-click-copy": "^1.0.2"
+    "vuepress-plugin-comment": "^0.7.3"
   }
 }
