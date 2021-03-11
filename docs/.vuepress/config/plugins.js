@@ -21,11 +21,11 @@ module.exports = [
         owner: 'coderlyu',
         admin: ['coderlyu'],
         pagerDirection: 'last',
-        id: '<%- (frontmatter.permalink || frontmatter.to.path).slice(-16) %>',
+        id: '<%- (frontmatter.permalink || frontmatter.to.path || "123456789012345").slice(-16) %>',
         title: '「评论」<%- frontmatter.title %>',
         labels: ['Gitalk', 'Comment'],
         body:
-          '页面：<%- window.location.origin + (frontmatter.to.path || window.location.pathname) %>',
+          '页面：<%- window.location.origin + (frontmatter.to.path || window.location.pathname || "123456789012345") %>',
       },
     }
   ],

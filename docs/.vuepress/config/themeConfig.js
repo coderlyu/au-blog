@@ -21,7 +21,7 @@ module.exports = {
   blogger: {
     avatar: 'https://avatar-static.segmentfault.com/249/884/2498845138-602fc45007b7c_big64',
     name: 'coderly',
-    slogan: '变秃了变强了',
+    slogan: '变秃了也变强了',
   },
   author: {
     name: 'coderly',
