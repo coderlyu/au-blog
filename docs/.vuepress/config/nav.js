@@ -6,7 +6,7 @@ module.exports = [
     items: [
       { text: 'JavaScript', link: '/pages/ccbe33/' },
       { text: 'Vue', link: '/pages/bd32c8/' },
-      { text: 'react基础入门', link: '/pages/eb7fff/' },
+      { text: 'react基础入门', link: '/pages/eb7fff/' }
     ]
   },
   {
@@ -20,7 +20,8 @@ module.exports = [
     text: '项目积累',
     link: '/project/',
     items: [
-      { text: '项目总结', link: '/pages/00f068/' }
+      { text: '项目总结', link: '/pages/00f068/' },
+      { text: 'node中使用crypto生成token', link: '/pages/dbadd2/' }
     ],
   },
   {
