@@ -6,6 +6,7 @@ module.exports = {
   title: 'Blog',
   description: 'Just Blog',
   base: process.env.NODE_ENV === 'development' ? '/' : '/blog/',
+  category: true,
   markdown,
   plugins,
   themeConfig
