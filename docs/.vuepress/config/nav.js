@@ -12,7 +12,7 @@ module.exports = [
     text: '学习笔记',
     link: '/note/',
     items: [
-      { text: 'Promise笔记', link: '/pages/82005c/' }
+      { text: '分析Promise实现', link: '/pages/82005c/' }
     ],
   },
   {
