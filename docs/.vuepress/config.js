@@ -6,7 +6,9 @@ const head = require('./config/head')
 module.exports = {
   theme: 'vdoing',
   title: 'Blog',
-  description: 'Just Blog',
+  description: '刘誉的博客',
+  dest: '../../webView',
+  cache: true,
   base: process.env.NODE_ENV === 'development' ? '/' : '/blog/',
   category: true,
   markdown,

@@ -6,7 +6,8 @@ module.exports = [
     items: [
       { text: 'JavaScript', link: '/pages/ccbe33/' },
       { text: 'Vue', link: '/pages/bd32c8/' },
-      { text: 'react基础入门', link: '/pages/eb7fff/' }
+      { text: 'react基础入门', link: '/pages/eb7fff/' },
+      { text: 'http协议', link: '/pages/58f0cb/' },
     ]
   },
   {
