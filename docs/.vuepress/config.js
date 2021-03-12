@@ -1,6 +1,8 @@
 const themeConfig = require('./config/themeConfig')
 const markdown = require('./config/markdown')
 const plugins = require('./config/plugins')
+const head = require('./config/head')
+
 module.exports = {
   theme: 'vdoing',
   title: 'Blog',
@@ -9,5 +11,6 @@ module.exports = {
   category: true,
   markdown,
   plugins,
+  head,
   themeConfig
 }
