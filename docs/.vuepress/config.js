@@ -5,7 +5,7 @@ const head = require('./config/head')
 
 module.exports = {
   theme: 'vdoing',
-  title: 'Blog',
+  title: "阿誉的博客",
   description: '刘誉的博客',
   dest: '../../webView',
   cache: true,
@@ -13,6 +13,6 @@ module.exports = {
   category: true,
   markdown,
   plugins,
-  head,
+  head, 
   themeConfig
 }

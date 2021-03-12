@@ -14,6 +14,8 @@ module.exports = {
   },
   rightMenuBar: true,
   pageButton: true,
+  bodyBgImg: '/images/bg-6.jpeg',
+  bodyBgImgOpacity: 0.8,
   footer: {
     createYear: 2021,
     copyrightInfo: 'coderly | <a href="https://github.com/coderlyu" target="_blank">MIT License</a>'
