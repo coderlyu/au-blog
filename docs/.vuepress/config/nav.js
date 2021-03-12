@@ -10,6 +10,9 @@ module.exports = [
       { text: 'http协议', link: '/pages/58f0cb/' },
       { text: 'cookie和session', link: '/pages/255011/' },
       { text: 'mongoose基础', link: '/pages/e84bbd/' },
+      { text: 'Multer文件上传中间件的使用', link: '/pages/71e997/' },
+      { text: '跨域问题总结', link: '/pages/42e039/' },
+      { text: 'Nginx', link: '/pages/667146/' },
     ]
   },
   {
