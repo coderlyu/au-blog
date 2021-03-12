@@ -8,6 +8,8 @@ module.exports = [
       { text: 'Vue', link: '/pages/bd32c8/' },
       { text: 'react基础入门', link: '/pages/eb7fff/' },
       { text: 'http协议', link: '/pages/58f0cb/' },
+      { text: 'cookie和session', link: '/pages/255011/' },
+      { text: 'mongoose基础', link: '/pages/e84bbd/' },
     ]
   },
   {

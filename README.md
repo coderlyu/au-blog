@@ -51,7 +51,8 @@ npm run build
 
 npm run build // 本地打包，前提是已经执行过了 npm install
 
-cd ./webView // 打包好的文件，这里配置的是 wevView，如果没有特别配置，改文件夹是在 docs/.vuepress/dist
+cd ./webView // 打包好的文件，这里配置的是 webView，如果没有特别配置，改文件夹是在 docs/.vuepress/dist
+
 
 
 git init
