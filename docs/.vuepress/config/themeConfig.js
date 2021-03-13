@@ -5,9 +5,10 @@ module.exports = {
   sidebarDepth: 2,
   lastUpdated: '上次更新',
   searchMaxSuggestions: 10,
-  docsDir: 'docs',
-  editLinks: true,
-  editLinkText: '编辑',
+  // repo: 'coderlyu/au-blog',
+  // docsDir: 'docs',
+  // editLinks: true,
+  // editLinkText: '编辑',
   sidebar: {
     mode: 'structuring',
     collapsable: false
