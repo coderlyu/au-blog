@@ -2,6 +2,10 @@
 
 > https://coderlyu.github.io/blog/#/
 
+## 效果
+
+<img src="https://raw.githubusercontent.com/coderlyu/au-blog/master/docs/.vuepress/public/home.png" alt="图片">
+
 ## VuePress - 基于 Vue 的静态网站生成器
 
 > 配置参看https://vuepress.vuejs.org/zh/guide/
