@@ -5,27 +5,30 @@ module.exports = [
     link: '/web/',
     items: [
       {
-        text: 'Javascript',
+        text: 'JavaScript',
         items: [
-          { text: 'js基础', link: '/pages/ccbe33/' },
+          { text: 'JavaScript基础', link: '/pages/ccbe33/' },
           { text: '构造函数和原型', link: '/pages/6abe86/' },
-          { text: 'cookie和session', link: '/pages/255011/' },
+          { text: 'Cookie和Session', link: '/pages/255011/' },
           { text: 'Object.create(null)和{}', link: '/pages/6abety/' },
+          { text: 'TypeScript配置', link: '/pages/0bea56/' },
         ]
       },
       {
         text: '框架',
         items: [
           { text: 'Vue', link: '/pages/bd32c8/' },
-          { text: 'react基础入门', link: '/pages/eb7fff/' }
+          { text: 'Vue-Router', link: '/pages/8ec53a/' },
+          { text: 'React基础入门', link: '/pages/eb7fff/' },
         ]
       },
       {
         text: '其它',
         items: [
-          { text: 'http协议', link: '/pages/58f0cb/' },
+          { text: 'Http协议', link: '/pages/58f0cb/' },
           { text: '跨域问题总结', link: '/pages/42e039/' },
           { text: 'Nginx', link: '/pages/667146/' },
+          { text: '正则表达式', link: '/pages/fc6574/' },
         ]
       }
     ]
@@ -41,14 +44,20 @@ module.exports = [
     text: '项目积累',
     link: '/project/',
     items: [
-      { text: '项目总结', link: '/pages/00f068/' },
-      { text: 'node中使用crypto生成token', link: '/pages/dbadd2/' }
+      { text: '项目汇总', link: '/pages/00f068/' },
+      { text: 'Vite快速搭建Vue3+TypeScript项目', link: '/pages/33b18f/' },
+      { text: 'Node.js中使用Crypto生成Token', link: '/pages/dbadd2/' },
+      { text: 'new Function', link: '/pages/ef8b0d/' },
+      { text: 'Body-Parser处理多层对象的问题', link: '/pages/7be537/' },
+      { text: 'Cordova打包Vue项目的问题', link: '/pages/0feae5/' },
+      { text: 'Vue将汉字转为拼音，取出首字母', link: '/pages/500c71/' },
+      { text: '项目中能用到的', link: '/pages/1c0dd1/' },
     ],
   },
   {
     text: '后端',
     items: [
-      { text: 'mongoose基础', link: '/pages/e84bbd/' },
+      { text: 'Mongoose基础', link: '/pages/e84bbd/' },
       { text: 'Multer文件上传中间件的使用', link: '/pages/71e997/' },
     ]
   },
@@ -56,9 +65,22 @@ module.exports = [
     text: '面试',
     items: [
       {
-        text: 'Javascript',
+        text: 'JavaScript',
         items: [
-          { text: '浅谈两数全等',  link: '/pages/e11b6a/' }
+          { text: '浅谈两数全等',  link: '/pages/e11b6a/' },
+          { text: 'JavaScrpit进制转换',  link: '/pages/bf9ebd/' },
+        ]
+      }
+    ]
+  },
+  {
+    text: '计算机',
+    items: [
+      {
+        text: '计算机网络',
+        items: [
+          { text: '数据链路层',  link: '/pages/3c0ea2/' },
+          { text: '网络层',  link: '/pages/20ac91/' },
         ]
       }
     ]
