@@ -14,7 +14,7 @@ module.exports = {
   },
   rightMenuBar: true,
   pageButton: true,
-  bodyBgImg: '/images/bg-6.jpeg',
+  bodyBgImg: (process.env.NODE_ENV === 'development' ? '' : '/blog') + '/images/bg-6.jpeg',
   bodyBgImgOpacity: 0.8,
   footer: {
     createYear: 2021,

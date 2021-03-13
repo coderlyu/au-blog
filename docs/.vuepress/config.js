@@ -7,7 +7,7 @@ module.exports = {
   theme: 'vdoing',
   title: "阿誉的博客",
   description: '刘誉的博客',
-  dest: '../../webView',
+  dest: 'webView',
   cache: true,
   base: process.env.NODE_ENV === 'development' ? '/' : '/blog/',
   category: true,

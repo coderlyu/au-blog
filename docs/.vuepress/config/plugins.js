@@ -17,7 +17,7 @@ module.exports = [
       options: {
         clientID: 'ee27cddb54c708e69312',
         clientSecret: '78700378974e4e0682b1d8c67b7c86ea6912d243',
-        repo: 'blog-gitalk-comment',
+        repo: 'au-blog',
         owner: 'coderlyu',
         admin: ['coderlyu'],
         pagerDirection: 'last',
