@@ -44,7 +44,7 @@ module.exports = [
     text: '项目积累',
     link: '/project/',
     items: [
-      { text: '项目汇总', link: '/pages/00f068/' },
+      { text: '项目Demo汇总', link: '/pages/00f068/' },
       { text: 'Vite快速搭建Vue3+TypeScript项目', link: '/pages/33b18f/' },
       { text: 'Node.js中使用Crypto生成Token', link: '/pages/dbadd2/' },
       { text: 'new Function', link: '/pages/ef8b0d/' },
