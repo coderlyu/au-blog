@@ -44,14 +44,34 @@ module.exports = [
     text: '项目积累',
     link: '/project/',
     items: [
-      { text: '项目Demo汇总', link: '/pages/00f068/' },
-      { text: 'Vite快速搭建Vue3+TypeScript项目', link: '/pages/33b18f/' },
-      { text: 'Node.js中使用Crypto生成Token', link: '/pages/dbadd2/' },
-      { text: 'new Function', link: '/pages/ef8b0d/' },
-      { text: 'Body-Parser处理多层对象的问题', link: '/pages/7be537/' },
-      { text: 'Cordova打包Vue项目的问题', link: '/pages/0feae5/' },
-      { text: 'Vue将汉字转为拼音，取出首字母', link: '/pages/500c71/' },
-      { text: '项目中能用到的', link: '/pages/1c0dd1/' },
+      {
+        text: 'Vue',
+        items: [
+          { text: 'Vite快速搭建Vue3+TypeScript项目', link: '/pages/33b18f/' },
+          { text: 'Cordova打包Vue项目的问题', link: '/pages/0feae5/' },
+          { text: 'Vue将汉字转为拼音，取出首字母', link: '/pages/500c71/' },
+        ]
+      },
+      {
+        text: 'JavaScript',
+        items: [
+          { text: 'new Function', link: '/pages/ef8b0d/' },
+        ]
+      },
+      {
+        text: '后端',
+        items: [
+          { text: 'Node.js中使用Crypto生成Token', link: '/pages/dbadd2/' },
+          { text: 'Body-Parser处理多层对象的问题', link: '/pages/7be537/' },
+        ]
+      },
+      {
+        text: '其它',
+        items: [
+          { text: '项目Demo汇总', link: '/pages/00f068/' },
+          { text: '项目中能用到的', link: '/pages/1c0dd1/' },
+        ]
+      }
     ],
   },
   {
@@ -67,8 +87,16 @@ module.exports = [
       {
         text: 'JavaScript',
         items: [
-          { text: '浅谈两数全等',  link: '/pages/e11b6a/' },
-          { text: 'JavaScrpit进制转换',  link: '/pages/bf9ebd/' },
+          { text: '浅谈两数全等', link: '/pages/e11b6a/' },
+          { text: 'JavaScript进制转换', link: '/pages/bf9ebd/' },
+        ]
+      },
+      {
+        text: '算法',
+        items: [
+          { text: '数组去重和排序', link: '/pages/4c1d71/' },
+          { text: '数组扁平化', link: '/pages/50cab2/' },
+          { text: '斐波那契数列', link: '/pages/7e8314/' },
         ]
       }
     ]
@@ -79,8 +107,8 @@ module.exports = [
       {
         text: '计算机网络',
         items: [
-          { text: '数据链路层',  link: '/pages/3c0ea2/' },
-          { text: '网络层',  link: '/pages/20ac91/' },
+          { text: '数据链路层', link: '/pages/3c0ea2/' },
+          { text: '网络层', link: '/pages/20ac91/' },
         ]
       }
     ]
