@@ -76,6 +76,7 @@ module.exports = [
   },
   {
     text: '后端',
+    link: '/fontend/',
     items: [
       { text: 'Mongoose基础', link: '/pages/e84bbd/' },
       { text: 'Multer文件上传中间件的使用', link: '/pages/71e997/' },
@@ -83,6 +84,7 @@ module.exports = [
   },
   {
     text: '面试',
+    link: '/interview/',
     items: [
       {
         text: 'JavaScript',
@@ -103,6 +105,7 @@ module.exports = [
   },
   {
     text: '计算机',
+    link: '/computer/',
     items: [
       {
         text: '计算机网络',
