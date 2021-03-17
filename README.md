@@ -1,6 +1,6 @@
 # 我的博客
 
-> https://coderlyu.github.io/blog/#/
+> http://coderly.cn
 
 ## 效果
 
