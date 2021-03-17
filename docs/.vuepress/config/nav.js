@@ -100,6 +100,12 @@ module.exports = [
           { text: '数组扁平化', link: '/pages/50cab2/' },
           { text: '斐波那契数列', link: '/pages/7e8314/' },
         ]
+      },
+      {
+        text: '其它',
+        items: [
+          { text: 'webpack面试题', link: '/pages/ccce52/' }
+        ]
       }
     ]
   },
