@@ -1,7 +1,6 @@
 ---
 home: true
 heroImage: /images/au.png
-# heroText: 词不达意，言不由衷
 tagline: 除非我不想赢，没人能让我输
 
 features:
