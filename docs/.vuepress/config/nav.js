@@ -91,6 +91,7 @@ module.exports = [
         items: [
           { text: '浅谈两数全等', link: '/pages/e11b6a/' },
           { text: 'JavaScript进制转换', link: '/pages/bf9ebd/' },
+          { text: '手写bind,apply,call和new', link: '/pages/37d718/' },
         ]
       },
       {
