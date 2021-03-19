@@ -106,7 +106,8 @@ module.exports = [
         text: '其它',
         items: [
           { text: 'webpack面试题', link: '/pages/ccce52/' },
-          { text: 'vite面试题', link: '/pages/f83c12/' }
+          { text: 'vite面试题', link: '/pages/f83c12/' },
+          { text: 'svg和canvas的优缺点', link: '/pages/427962/' },
         ]
       }
     ]
