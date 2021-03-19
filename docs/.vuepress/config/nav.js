@@ -105,7 +105,8 @@ module.exports = [
       {
         text: '其它',
         items: [
-          { text: 'webpack面试题', link: '/pages/ccce52/' }
+          { text: 'webpack面试题', link: '/pages/ccce52/' },
+          { text: 'vite面试题', link: '/pages/f83c12/' }
         ]
       }
     ]
