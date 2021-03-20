@@ -109,7 +109,7 @@ module.exports = [
           { text: 'vite面试题', link: '/pages/f83c12/' },
           { text: 'svg和canvas的优缺点', link: '/pages/427962/' },
           { text: 'TypeScript面试题', link: '/pages/fa4e88/' },
-          { text: 'vue-router钩子执行顺序', link: '/pages/b61db9/' },
+          { text: 'Vue常见面试题', link: '/pages/b61db9/' },
         ]
       }
     ]
