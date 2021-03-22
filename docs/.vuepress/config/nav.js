@@ -128,6 +128,13 @@ module.exports = [
     ]
   },
   {
+    text: '其它',
+    link: '/other/',
+    items: [
+      { text: 'Git使用', link: '/pages/3e6e24/' }
+    ]
+  },
+  {
     text: '外链',
     items: [
       { text: 'GitHub', link: 'https://github.com/coderlyu' },
