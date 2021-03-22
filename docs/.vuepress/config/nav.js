@@ -27,8 +27,6 @@ module.exports = [
         items: [
           { text: 'Http协议', link: '/pages/58f0cb/' },
           { text: '跨域问题总结', link: '/pages/42e039/' },
-          { text: 'Nginx', link: '/pages/667146/' },
-          { text: '正则表达式', link: '/pages/fc6574/' },
         ]
       }
     ]
@@ -131,7 +129,9 @@ module.exports = [
     text: '其它',
     link: '/other/',
     items: [
-      { text: 'Git使用', link: '/pages/3e6e24/' }
+      { text: 'Git的使用', link: '/pages/3e6e24/' },
+      { text: 'Nginx的使用', link: '/pages/667146/' },
+      { text: '正则表达式', link: '/pages/fc6574/' },
     ]
   },
   {
