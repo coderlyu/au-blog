@@ -1,5 +1,12 @@
 const dayjs = require('dayjs')
 module.exports = [
+  'vuepress-plugin-baidu-autopush', // 百度自动推送
+  [
+    'vuepress-plugin-baidu-tongji', // 百度统计
+    {
+      hm: '0127fd7df37b0f6903bf4c50236f10f3',
+    },
+  ],
   '@vuepress/nprogress',
   [
     'vuepress-plugin-zooming', // 放大图片
@@ -11,7 +18,7 @@ module.exports = [
     },
   ],
   [
-    'one-click-copy',
+    'one-click-copy', // 复制
     {
       copySelector: ['div[class*="language-"] pre', 'div[class*="aside-code"] aside'],
       copyMessage: '复制成功',
@@ -20,7 +27,7 @@ module.exports = [
     }
   ],
   [
-    'vuepress-plugin-comment',
+    'vuepress-plugin-comment', // 评论
     {
       choosen: 'gitalk',
       options: {
@@ -39,7 +46,7 @@ module.exports = [
     }
   ],
   [
-    '@vuepress/last-updated',
+    '@vuepress/last-updated', // 时间显示格式
     {
       transformer: (timestamp, lang) => {
         return dayjs(timestamp).format('YYYY/MM/DD, HH:mm:ss')
