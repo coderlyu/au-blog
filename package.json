@@ -19,11 +19,11 @@
     "vuepress-plugin-baidu-autopush": "^1.0.1",
     "vuepress-plugin-one-click-copy": "^1.0.2",
     "vuepress-plugin-zooming": "^1.1.8",
-    "vuepress-theme-vdoing": "^1.8.1"
+    "vuepress-theme-vdoing": "^1.8.1",
+    "markdown-it": "^12.0.4",
+    "vuepress-plugin-baidu-tongji": "^1.0.1"
   },
   "dependencies": {
-    "markdown-it": "^12.0.4",
-    "vuepress-plugin-baidu-tongji": "^1.0.1",
     "vuepress-plugin-comment": "^0.7.3"
   }
 }
