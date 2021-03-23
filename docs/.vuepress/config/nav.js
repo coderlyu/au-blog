@@ -135,6 +135,10 @@ module.exports = [
     ]
   },
   {
+    text: '友链',
+    link: '/pages/8149d9/'
+  },
+  {
     text: '外链',
     items: [
       { text: 'GitHub', link: 'https://github.com/coderlyu' },

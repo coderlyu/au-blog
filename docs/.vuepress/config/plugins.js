@@ -1,10 +1,15 @@
 const dayjs = require('dayjs')
 module.exports = [
   '@vuepress/nprogress',
-  [require('../plugins/love-me'), { // 鼠标点击爱心特效
-    color: '#11a8cd',
-    excludeClassName: 'theme-vdoing-content' // 要排除元素的class, 默认空''
-  }],
+  [
+    'vuepress-plugin-zooming', // 放大图片
+    {
+      selector: '.theme-vdoing-content img:not(.no-zoom)', // 排除class是no-zoom的图片
+      options: {
+        bgColor: 'rgba(0,0,0,0.6)',
+      },
+    },
+  ],
   [
     'one-click-copy',
     {
