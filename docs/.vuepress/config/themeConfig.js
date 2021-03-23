@@ -23,11 +23,26 @@ module.exports = {
   },
   blogger: {
     avatar: 'https://avatar-static.segmentfault.com/249/884/2498845138-602fc45007b7c_big64',
-    name: 'coderly',
-    slogan: '变秃了也变强了',
+    name: '刘誉',
+    slogan: '欢迎互换友链',
   },
   author: {
     name: 'coderly',
     link: 'https://github.com/coderlyu',
+  },
+  social: {
+    iconfontCssFile: '//at.alicdn.com/t/font_2382143_eetu51zaufa.css',
+    icons: [
+      {
+        iconClass: 'iconshejiaotubiao-46',
+        title: '知乎',
+        link: 'https://www.zhihu.com/people/163200',
+      },
+      {
+        iconClass: 'iconGitHub',
+        title: 'GitHub',
+        link: 'https://github.com/coderlyu',
+      },
+    ],
   },
 }
