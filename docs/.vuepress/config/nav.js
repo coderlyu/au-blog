@@ -67,6 +67,7 @@ module.exports = [
         text: '其它',
         items: [
           { text: '项目Demo汇总', link: '/pages/00f068/' },
+          { text: 'Vuepress+Vercel搭建个人站点', link: '/pages/e4ec20/' },
           { text: '项目中能用到的', link: '/pages/1c0dd1/' },
         ]
       }
@@ -132,6 +133,7 @@ module.exports = [
       { text: 'Git的使用', link: '/pages/3e6e24/' },
       { text: 'Nginx的使用', link: '/pages/667146/' },
       { text: '正则表达式', link: '/pages/fc6574/' },
+      { text: 'SEO搜索引擎优化', link: '/pages/859e09/' },
     ]
   },
   {
