@@ -35,7 +35,8 @@ module.exports = [
     text: '学习笔记',
     link: '/note/',
     items: [
-      { text: '分析Promise实现', link: '/pages/82005c/' }
+      { text: '分析Promise实现', link: '/pages/82005c/' },
+      { text: 'Axios源码分析', link: '/pages/954714/' },
     ],
   },
   {
