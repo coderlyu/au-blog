@@ -133,6 +133,7 @@ module.exports = [
     items: [
       { text: 'Git的使用', link: '/pages/3e6e24/' },
       { text: 'Nginx的使用', link: '/pages/667146/' },
+      { text: 'CentOS7安装Nginx', link: '/pages/6ddf53/' },
       { text: '正则表达式', link: '/pages/fc6574/' },
       { text: 'SEO搜索引擎优化', link: '/pages/859e09/' },
     ]
