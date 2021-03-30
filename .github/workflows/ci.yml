@@ -15,9 +15,7 @@ jobs:
 
       # 第二步：打包构建
       - name: Build
-        uses: actions/setup-node@master
-      - run: npm install # 安装第三方包
-      - run: npm run build # 打包
+      - run: npm install && npm run build # 打包
       # - run: tar -czvf blog.tgz ./webView/*
 
       - name: ssh deploy
@@ -36,7 +34,7 @@ jobs:
           # Source directory
           SOURCE: 'webView/'
           # Target directory
-          TARGET: '/usr/web/html/blog'
+          TARGET: '/usr/web/html/blog/'
           # Arguments to pass to rsync
           ARGS: '-rltgoDzvO --delete'
 
