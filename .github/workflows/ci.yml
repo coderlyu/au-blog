@@ -34,7 +34,7 @@ jobs:
           # Target directory
           TARGET: '/usr/web/html/blog'
           # Arguments to pass to rsync
-          ARGS: '-rltgoDzvO --delete'
+          # ARGS: '-rltgoDzvO --delete'
 
       # # 第三步：部署到服务器
       # - name: Deploy
