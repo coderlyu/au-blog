@@ -16,7 +16,6 @@ jobs:
       # 第二步：打包构建
       - name: Build
         run: npm install && npm run build # 打包
-      # - run: tar -czvf blog.tgz ./webView/*
 
       - name: ssh deploy
         uses: easingthemes/ssh-deploy@v2.1.6
