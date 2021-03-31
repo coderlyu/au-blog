@@ -30,9 +30,9 @@ jobs:
           # Remote port
           REMOTE_PORT: ${{ secrets.PORT }}
           # Source directory
-          SOURCE: '/webView/'
+          SOURCE: 'webView/'
           # Target directory
-          TARGET: '/usr/web/html/blog/'
+          TARGET: '/usr/web/html/blog'
           # Arguments to pass to rsync
           ARGS: '-rltgoDzvO --delete'
 
