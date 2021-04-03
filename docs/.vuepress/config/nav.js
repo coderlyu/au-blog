@@ -139,6 +139,7 @@ module.exports = [
       { text: 'CentOS7安装Nginx', link: '/pages/6ddf53/' },
       { text: '正则表达式', link: '/pages/fc6574/' },
       { text: 'SEO搜索引擎优化', link: '/pages/859e09/' },
+      { text: 'Serverless介绍', link: '/pages/eb693b/' },
     ]
   },
   {
