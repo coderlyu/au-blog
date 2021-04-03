@@ -1,6 +1,6 @@
 # 我的博客
 
-> https://coderly.cn
+> [效果地址](https://coderly.cn)
 
 ## 效果
 
@@ -32,11 +32,9 @@ VuePress 常被用来生成说明文档
 - 博客功能提供一种知识的碎片化形态，并支持个性化博客配置。
 - 简洁高效，以 Markdown 为中心的项目结构。内置自动化工具，以更少的配置完成更多的事。配合多维索引快速定位每个知识点。
 
-## VuePress 插件
+## 自动化部署
 
-### Vuepress-Plugin-Comment 评论
-
-> 配置参看https://github.com/dongyuanxin/vuepress-plugin-comment
+GitHub Actons
 
 ## 开始
 
@@ -45,24 +43,4 @@ npm install
 npm run dev // 本地运行
 // 或
 npm run build
-```
-
-### git.sh 脚本说明
-
-执行：`npm run build:sh`，可打包发布到另一个仓库（个人博客）
-
-```js
-
-npm run build // 本地打包，前提是已经执行过了 npm install
-
-cd ./webView // 打包好的文件，这里配置的是 webView，如果没有特别配置，改文件夹是在 docs/.vuepress/dist
-
-
-
-git init
-git add -A
-git commit -m '更新blog'
-
-git push -f git@github.com:coderlyu/blog.git master // 强制覆盖远程仓库的 master 分支，这里的 git 仓库改成你自己的，此时提交上去的就是打包好的
-// 代码，如果你这个仓库设置了 GitHub Pages 个人站点的话，相当于打包完后自动部署到了你的站点（我这里用来做个人博客网站）
 ```
