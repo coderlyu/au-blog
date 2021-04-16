@@ -24,7 +24,7 @@ module.exports = {
   blogger: {
     avatar: 'https://avatar-static.segmentfault.com/249/884/2498845138-602fc45007b7c_big64',
     name: '刘誉',
-    slogan: '欢迎互换友链',
+    slogan: '总有人要赢，为什么不能是我',
   },
   author: {
     name: 'coderly',
