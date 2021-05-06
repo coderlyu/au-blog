@@ -7,7 +7,6 @@ module.exports = [
       {
         text: 'JavaScript',
         items: [
-          { text: 'JavaScript基础', link: '/pages/ccbe33/' },
           { text: '构造函数和原型', link: '/pages/6abe86/' },
           { text: 'Cookie和Session', link: '/pages/255011/' },
           { text: 'Object.create(null)和{}', link: '/pages/6abety/' },
@@ -17,7 +16,6 @@ module.exports = [
       {
         text: '框架',
         items: [
-          { text: 'Vue', link: '/pages/bd32c8/' },
           { text: 'Vue-Router', link: '/pages/8ec53a/' },
           { text: 'React基础入门', link: '/pages/eb7fff/' },
         ]
@@ -37,6 +35,7 @@ module.exports = [
     items: [
       { text: '分析Promise实现', link: '/pages/82005c/' },
       { text: 'Axios源码分析', link: '/pages/954714/' },
+      { text: 'Webpack原理', link: '/pages/6aa311/' },
     ],
   },
   {
