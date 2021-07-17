@@ -36,6 +36,7 @@ module.exports = [
       { text: '分析Promise实现', link: '/pages/82005c/' },
       { text: 'Axios源码分析', link: '/pages/954714/' },
       { text: 'Webpack原理', link: '/pages/6aa311/' },
+      { text: 'vueRouter源码分析', link: '/pages/f80ee5/' },
     ],
   },
   {
