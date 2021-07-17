@@ -70,6 +70,7 @@ module.exports = [
           { text: '项目Demo汇总', link: '/pages/00f068/' },
           { text: 'Vuepress+Vercel搭建个人站点', link: '/pages/e4ec20/' },
           { text: '项目中能用到的', link: '/pages/1c0dd1/' },
+          { text: 'husky规范代码提交', link: '/pages/292082/' },
         ]
       }
     ],
