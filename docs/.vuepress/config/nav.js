@@ -11,6 +11,7 @@ module.exports = [
           { text: 'Cookie和Session', link: '/pages/255011/' },
           { text: 'Object.create(null)和{}', link: '/pages/6abety/' },
           { text: 'TypeScript配置', link: '/pages/0bea56/' },
+          { text: 'typescript入门到进阶', link: '/pages/c7b3dd/' }
         ]
       },
       {
