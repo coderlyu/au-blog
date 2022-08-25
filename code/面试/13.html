@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    /* 函数柯里化 */
+    const curry = function(fn, ...args) {
+      const length = fn.length // 需要几个参数结束
+      return function(...others) {
+        args = [].concat(args, others)
+        if(args.length < length) {
+          return curry.call(this, fn, ...args)
+        } else {
+          // 结束计算
+          return fn.call(this, ...[].concat(args))
+        }
+      }
+    }
+    const fn = curry((a, b, c) => (a + b + c))
+    console.log(fn(1)(2)(3))
+    // console.log(fn(1, 2)(3))
+    // console.log(fn(1, 2, 3))
+
+
+    /* bind */
+    const _bind = function(fn, ...args) {
+      return function(...others) {
+        return fn.call(fn, ...args, ...others)
+      }
+    }
+    let thor = _bind(function() {
+      console.log('thor', this)
+    })
+    thor()
+
+    /* 防抖 */
+    const debounce = function() {}
+
+
+    /* 节流 */
+    const throttle = function() {
+      
+    }
+  </script>
+</body>
+</html>
