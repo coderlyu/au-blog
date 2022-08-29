@@ -39,12 +39,66 @@
     thor()
 
     /* 防抖 */
-    const debounce = function() {}
+    const debounce = function(func, delay) {
+      let timer = null
+      return function(...args) {
+        const that = this
+        if(timer) {
+          clearTimeout(timer)
+        }
+        timer = setTimeout(() => {
+          func.apply(that, args)
+          timer = null
+        }, delay);
+      }
+    }
 
 
     /* 节流 */
-    const throttle = function() {
-      
+    const throttle = function(func, delay) {
+      const timer = null
+      return function() {
+        const that = this
+        if(timer) {
+          return
+        }
+        timer = setTimeout(() => {
+          func.apply(that, args)
+          timer = null
+        }, delay);
+      }
+    }
+
+    /* 实现Event类 */
+    class Event {
+      events = {}
+      on(eventName, func) {
+        if(!eventName) return
+        const eventArr = this.events[eventName] || (this.events[eventName] = [])
+        if(!eventArr.includes(func)) {
+          eventArr.push(func)
+        }
+      }
+      off(eventName, func) {
+        if(!eventName) {
+          // 删除全部
+          this.events = {}
+        } else if(!func) {
+          // 删除eventName下全部
+          this.events[eventName] = []
+        } else {
+          const eventArr = this.events[eventName]
+          const idx = eventArr.indexOf(func)
+          if(idx !== -1) {
+            eventArr.splice(idx, 1)
+          }
+        }
+      }
+      emit(eventName, ...args) {
+        if(!eventName) return
+        const eventArr = this.events[eventName]
+        eventArr.forEach(f => f(...args)) 
+      }
     }
   </script>
 </body>
