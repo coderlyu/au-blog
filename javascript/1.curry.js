@@ -1,4 +1,5 @@
 /**
+ * 来源于
  * https://bigfrontend.dev/problem/implement-curry
  */
 
@@ -21,7 +22,7 @@
 function curry(fn) {
   // your code here
   return function curryFunc(...args) {
-    if (args.length >= fn.length) return fn.call(this, ...args);
-    return curryFunc.bind(this, ...args);
+    if (args.length >= fn.length) return fn.call(null, ...args);
+    return curryFunc.bind(null, ...args);
   };
 }
