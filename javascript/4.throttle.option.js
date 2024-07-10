@@ -26,12 +26,32 @@
 /**
  * @param {(...args: any[]) => any} func
  * @param {number} wait
- * @param {boolean} option.leading
- * @param {boolean} option.trailing
+ * @param {boolean} option.leading  立即执行
+ * @param {boolean} option.trailing 最后执行
  * @returns {(...args: any[]) => any}
  */
 function throttle(func, wait, option = { leading: true, trailing: true }) {
   // your code here
+  let lastArgs = null;
+  let timer = null;
+  const { leading, trailing } = option;
+  return function (...args) {
+    if (!timer) {
+      if (leading) func.apply(this, args);
+      const time = () => {
+        timer = setTimeout(() => {
+          if (lastArgs && trailing) {
+            func.apply(this, lastArgs);
+            lastArgs = null;
+            time();
+          } else timer = null;
+        }, wait);
+      };
+      time();
+    } else {
+      lastArgs = args;
+    }
+  };
 }
 
 let currentTime = 0;
