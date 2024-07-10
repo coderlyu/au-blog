@@ -1,5 +1,5 @@
 /**
- * 来源于
+ * from
  * https://bigfrontend.dev/problem/implement-curry-with-placeholder
  */
 

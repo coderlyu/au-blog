@@ -1,5 +1,5 @@
 /**
- * 来源于
+ * from
  * https://bigfrontend.dev/problem/implement-Array-prototype.flat
  */
 
@@ -34,13 +34,13 @@ function flat(arr, depth = 1) {
   return result;
 }
 
-const arr = [1, [2], [3, [4]]];
+// const arr = [1, [2], [3, [4]]];
 
-console.log(flat(arr));
+// console.log(flat(arr));
 
-// [1, 2, 3, [4]]
+// // [1, 2, 3, [4]]
 
-console.log(flat(arr, 1));
-// [1, 2, 3, [4]]
+// console.log(flat(arr, 1));
+// // [1, 2, 3, [4]]
 
-console.log(flat(arr, 2));
+// console.log(flat(arr, 2));
