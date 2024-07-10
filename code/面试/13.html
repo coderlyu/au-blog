@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    /* 函数柯里化 */
+    const curry = function(fn, ...args) {
+      const length = fn.length // 需要几个参数结束
+      return function(...others) {
+        args = [].concat(args, others)
+        if(args.length < length) {
+          return curry.call(this, fn, ...args)
+        } else {
+          // 结束计算
+          return fn.call(this, ...[].concat(args))
+        }
+      }
+    }
+    const fn = curry((a, b, c) => (a + b + c))
+    console.log(fn(1)(2)(3))
+    // console.log(fn(1, 2)(3))
+    // console.log(fn(1, 2, 3))
+
+
+    /* bind */
+    const _bind = function(fn, ...args) {
+      return function(...others) {
+        return fn.call(fn, ...args, ...others)
+      }
+    }
+    let thor = _bind(function() {
+      console.log('thor', this)
+    })
+    thor()
+
+    /* 防抖 */
+    const debounce = function(func, delay) {
+      let timer = null
+      return function(...args) {
+        const that = this
+        if(timer) {
+          clearTimeout(timer)
+        }
+        timer = setTimeout(() => {
+          func.apply(that, args)
+          timer = null
+        }, delay);
+      }
+    }
+
+
+    /* 节流 */
+    const throttle = function(func, delay) {
+      const timer = null
+      return function() {
+        const that = this
+        if(timer) {
+          return
+        }
+        timer = setTimeout(() => {
+          func.apply(that, args)
+          timer = null
+        }, delay);
+      }
+    }
+
+    /* 实现Event类 */
+    class Event {
+      events = {}
+      on(eventName, func) {
+        if(!eventName) return
+        const eventArr = this.events[eventName] || (this.events[eventName] = [])
+        if(!eventArr.includes(func)) {
+          eventArr.push(func)
+        }
+      }
+      off(eventName, func) {
+        if(!eventName) {
+          // 删除全部
+          this.events = {}
+        } else if(!func) {
+          // 删除eventName下全部
+          this.events[eventName] = []
+        } else {
+          const eventArr = this.events[eventName]
+          const idx = eventArr.indexOf(func)
+          if(idx !== -1) {
+            eventArr.splice(idx, 1)
+          }
+        }
+      }
+      emit(eventName, ...args) {
+        if(!eventName) return
+        const eventArr = this.events[eventName]
+        eventArr.forEach(f => f(...args)) 
+      }
+    }
+  </script>
+</body>
+</html>

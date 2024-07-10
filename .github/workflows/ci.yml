@@ -36,7 +36,7 @@ jobs:
           # Source directory
           SOURCE: 'webView/'
           # Target directory
-          TARGET: '/usr/web/html/blog'
+          TARGET: '/usr/local/html/blog'
           # Arguments to pass to rsync
           # ARGS: '-rltgoDzvO --delete'
 
