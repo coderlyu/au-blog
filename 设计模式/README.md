@@ -1,6 +1,7 @@
 # 设计模式
 
 > [参考 Java 设计模式](https://dunwu.github.io/design/pages/9a2452/), 23 种设计模式
+
 > [参考 Javascript 设计模式](https://www.w3cschool.cn/zobyhd/3lt2rcqm.html)
 
 ## 分类
