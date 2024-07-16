@@ -6,7 +6,8 @@
 2. [Plugin](2.plugin.md)
 3. [Preset](3.preset.md)
 
-> [babel](https://babeljs.io/docs/),
+> [babel](https://babeljs.io/docs/)
+
 > [Usage Document](https://github.com/jamiebuilds/babel-handbook/blob/master/translations/zh-Hans/user-handbook.md)
 
 Babel 是一款通用的 JavaScript 编译器。它还是一个模块集合，可用于多种形式的静态分析。
