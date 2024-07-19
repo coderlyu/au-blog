@@ -1,6 +1,6 @@
 /**
- * 来源于
- * https://bigfrontend.dev/problem/implement-basic-throttle
+ * from
+ * https://bigfrontend.dev/problem/implement-throttle-with-leading-and-trailing-option
  */
 
 // let currentTime = 0
@@ -53,23 +53,3 @@ function throttle(func, wait, option = { leading: true, trailing: true }) {
     }
   };
 }
-
-let currentTime = 0;
-
-const run = (input) => {
-  currentTime = 0;
-  const calls = [];
-
-  const func = (arg) => {
-    calls.push(`${arg}@${currentTime}`);
-  };
-
-  const throttled = throttle(func, 3);
-  input.forEach((call) => {
-    const [arg, time] = call.split("@");
-    setTimeout(() => throttled(arg), time);
-  });
-  return calls;
-};
-
-console.log(run(["A@0", "B@2", "C@3"])); // ['A@0', 'C@3']

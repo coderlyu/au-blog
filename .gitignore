@@ -1,4 +1,5 @@
 node_modules
 **/.DS_Store
+**/*/node_modules
 # docs/.vuepress/**/.DS_Store
 # docs/.vuepress/public/images/.DS_Store

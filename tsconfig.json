@@ -1,0 +1,27 @@
+{
+	"compilerOptions": {
+		"target": "ES5",
+		"module": "ESNext",
+		"moduleResolution": "node",
+		"noEmitOnError": true,
+		"lib": [
+			"es5",
+			"DOM"
+		],
+		"strict": true,
+		"esModuleInterop": false,
+		"rootDir": "./",
+		"baseUrl": "./",
+		"allowJs": true,
+		"noImplicitAny": false,
+		"declaration": false,
+		"paths": {
+			"@app/*": ["src/*"],
+			"@env/*": ["src/environments/*"]
+		},
+		"types": ["jest"]
+	},
+	"include": ["./typescript/**/*.ts"],
+	"exclude": [],
+	"extensions": [".js", ".jsx", ".es6", ".es", ".mjs", ".ts", ".tsx"]
+}
