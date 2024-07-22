@@ -1,5 +1,7 @@
 # webpack ts 配置
 
+## 基础使用
+
 配置 Webpack 以支持 TypeScript 的步骤如下：
 
 ### 1. 初始化项目
