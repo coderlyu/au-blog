@@ -931,4 +931,4 @@ import module from "module-path";
 
 通过合理使用这两个文件，可以有效地管理项目依赖，确保项目在不同开发和生产环境中的稳定性和一致性。
 
-## [Pnpm、Npm 和 Yarn 区别](../Pnpm.md#pnpmnpm-和-yarn-区别)
+## [Pnpm Npm 和 Yarn 区别](../Pnpm.md#pnpm-npm-和-yarn-区别)
