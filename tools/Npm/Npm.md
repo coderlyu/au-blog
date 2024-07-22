@@ -1,5 +1,10 @@
 # Npm
 
+## 内容导航
+
+1. [Nrm](./Nrm.md)
+2. [Nvm](./Nvm.md)
+
 ## Commands
 
 > [Document](https://docs.npmjs.com/cli/v10/commands/npm)
@@ -925,3 +930,5 @@ import module from "module-path";
 - **`npm-shrinkwrap.json`** 是手动生成的文件，主要用于生产环境部署，确保在不同环境下安装依赖的一致性。
 
 通过合理使用这两个文件，可以有效地管理项目依赖，确保项目在不同开发和生产环境中的稳定性和一致性。
+
+## [Pnpm、Npm 和 Yarn 区别](../Pnpm.md#pnpmnpm-和-yarn-区别)
