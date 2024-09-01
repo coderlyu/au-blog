@@ -455,16 +455,1172 @@ for (let i = 0; i < 5; i++) {
 - **`while` 循环**: 适用于循环次数不确定，但需在满足某个条件之前一直执行的情况。
 - **`do...while` 循环**: 适用于循环体需要至少执行一次的情况。
 
-理解并灵活使用这些循环语句，可以有效地处理重复性任务，编写高效的JavaScript代码。
+
 ### 函数
+JavaScript中的函数是可复用的代码块，用于执行特定任务或计算。函数可以接受输入（参数），并且可以返回输出（返回值）。函数的使用提高了代码的可读性、可维护性和可复用性。
+
+#### 1. **函数的定义**
+
+在JavaScript中，有多种方式定义函数，包括函数声明、函数表达式、箭头函数等。
+
+##### 1.1 **函数声明**
+函数声明是最常见的定义函数的方式，使用`function`关键字来定义。
+
+**语法**：
+```javascript
+function functionName(parameters) {
+  // 函数体
+  return value; // 可选
+}
+```
+
+**示例**：
+```javascript
+function greet(name) {
+  return "Hello, " + name + "!";
+}
+
+console.log(greet("Alice")); // 输出: Hello, Alice!
+```
+在这个例子中，函数`greet`接受一个参数`name`，返回一个问候字符串。
+
+##### 1.2 **函数表达式**
+函数表达式是将函数赋值给变量。函数表达式可以是匿名的（无名称），也可以是命名的。
+
+**语法**：
+```javascript
+const functionName = function(parameters) {
+  // 函数体
+  return value; // 可选
+};
+```
+
+**示例**：
+```javascript
+const greet = function(name) {
+  return "Hello, " + name + "!";
+};
+
+console.log(greet("Bob")); // 输出: Hello, Bob!
+```
+在这个例子中，函数被赋值给变量`greet`，然后通过`greet`来调用。
+
+##### 1.3 **箭头函数**
+箭头函数是ES6引入的更简洁的函数定义方式，尤其适用于简短的函数。
+
+**语法**：
+```javascript
+const functionName = (parameters) => {
+  // 函数体
+  return value; // 可选
+};
+```
+当箭头函数只有一个参数时，可以省略圆括号；当函数体只有一行代码并且是返回值时，可以省略花括号和`return`关键字。
+
+**示例**：
+```javascript
+const greet = (name) => "Hello, " + name + "!";
+
+console.log(greet("Charlie")); // 输出: Hello, Charlie!
+```
+在这个例子中，箭头函数`greet`返回一个问候字符串。
+
+#### 2. **函数调用**
+
+定义函数后，可以通过函数名称和括号来调用它，并传递所需的参数。
+
+**示例**：
+```javascript
+function add(a, b) {
+  return a + b;
+}
+
+console.log(add(3, 5)); // 输出: 8
+```
+在这个例子中，函数`add`被调用，并传递了两个参数`3`和`5`，返回它们的和。
+
+#### 3. **函数参数**
+
+函数可以接受多个参数，并在函数体内使用这些参数。函数也可以有默认参数值，当没有提供相应参数时使用默认值。
+
+**示例**：
+```javascript
+function multiply(a, b = 1) {
+  return a * b;
+}
+
+console.log(multiply(5)); // 输出: 5 (b 使用了默认值 1)
+console.log(multiply(5, 3)); // 输出: 15
+```
+
+#### 4. **返回值**
+
+函数可以返回一个值，使用`return`关键字。如果没有`return`，函数将默认返回`undefined`。
+
+**示例**：
+```javascript
+function square(x) {
+  return x * x;
+}
+
+console.log(square(4)); // 输出: 16
+```
+
+#### 5. **匿名函数**
+
+匿名函数是没有名称的函数，通常用在需要临时函数的场景中，如回调函数。
+
+**示例**：
+```javascript
+setTimeout(function() {
+  console.log("This will run after 2 seconds");
+}, 2000);
+```
+在这个例子中，`setTimeout`接受一个匿名函数作为回调函数，并在2秒后执行它。
+
+#### 6. **立即调用函数表达式 (IIFE)**
+IIFE是定义后立即执行的函数。通常用于创建私有作用域，以避免变量污染全局作用域。
+
+**语法**：
+```javascript
+(function() {
+  // 函数体
+})();
+```
+
+**示例**：
+```javascript
+(function() {
+  console.log("This function runs immediately!");
+})();
+```
+
+#### 7. **函数作用域**
+
+在JavaScript中，函数创建了自己的作用域。在函数内部声明的变量无法在函数外部访问（除非是通过返回值或全局变量）。
+
+**示例**：
+```javascript
+function testScope() {
+  let x = 10;
+  console.log(x); // 输出: 10
+}
+
+testScope();
+console.log(x); // 错误: x is not defined
+```
+
+#### 8. **闭包 (Closure)**
+
+闭包是指函数可以记住并访问它的词法作用域，即使函数在其词法作用域之外执行。
+
+**示例**：
+```javascript
+function outerFunction() {
+  let outerVar = "I am outside!";
+
+  function innerFunction() {
+    console.log(outerVar); // 闭包：访问外部函数的变量
+  }
+
+  return innerFunction;
+}
+
+const myFunction = outerFunction();
+myFunction(); // 输出: I am outside!
+```
+在这个例子中，`innerFunction`记住了`outerFunction`中的变量`outerVar`，即使`outerFunction`已经执行完毕。
+
+#### 总结
+
+- **函数声明**是最常用的定义方式。
+- **函数表达式**可以赋值给变量或作为回调函数使用。
+- **箭头函数**提供了一种简洁的语法，特别适用于简短的函数。
+- **匿名函数**和**IIFE**用于临时函数和创建私有作用域。
+- **闭包**是函数的重要特性，用于管理函数作用域中的变量。
+
 
 ### 对象与面向对象编程
 
-#### 对象基础
+JavaScript中的对象与面向对象编程（OOP）是核心概念，它们提供了对数据和行为进行组织和封装的方式。JavaScript本质上是一种面向对象的语言，每个实例都是对象。通过面向对象编程，开发者可以更好地管理代码的复杂性和重用性。
 
-#### 原型与继承
+#### 1. **对象（Object）**
 
-#### 内置对象
+在JavaScript中，对象是一种数据类型，是属性的无序集合，属性可以是基本值、函数或其他对象。对象通常用来表示现实世界中的实体或抽象概念。
+
+##### 1.1 **对象的创建**
+
+对象可以通过对象字面量、构造函数和`Object.create()`方法创建。
+
+**对象字面量**：
+```javascript
+let person = {
+  name: "Alice",
+  age: 30,
+  greet: function() {
+    console.log("Hello, " + this.name);
+  }
+};
+
+person.greet(); // 输出: Hello, Alice
+```
+在这个例子中，`person`是一个对象，包含属性`name`、`age`和方法`greet`。
+
+**构造函数**：
+```javascript
+function Person(name, age) {
+  this.name = name;
+  this.age = age;
+  this.greet = function() {
+    console.log("Hello, " + this.name);
+  };
+}
+
+let person1 = new Person("Bob", 25);
+person1.greet(); // 输出: Hello, Bob
+```
+在这个例子中，`Person`是一个构造函数，用于创建具有相同结构的多个对象。
+
+**`Object.create()`方法**：
+```javascript
+let personProto = {
+  greet: function() {
+    console.log("Hello, " + this.name);
+  }
+};
+
+let person2 = Object.create(personProto);
+person2.name = "Charlie";
+person2.greet(); // 输出: Hello, Charlie
+```
+在这个例子中，`person2`对象继承了`personProto`对象的属性和方法。
+
+##### 1.2 **访问和修改对象属性**
+
+对象的属性可以通过点符号或方括号访问和修改。
+
+**示例**：
+```javascript
+let person = {
+  name: "Alice",
+  age: 30
+};
+
+console.log(person.name); // 输出: Alice
+person.age = 31;
+console.log(person["age"]); // 输出: 31
+```
+
+##### 1.3 **删除对象属性**
+
+可以使用`delete`操作符删除对象的属性。
+
+**示例**：
+```javascript
+let person = {
+  name: "Alice",
+  age: 30
+};
+
+delete person.age;
+console.log(person.age); // 输出: undefined
+```
+
+#### 2. **面向对象编程（OOP）**
+
+面向对象编程是一种编程范式，它将程序组织为一组对象，每个对象代表一个实体或抽象概念。OOP的核心概念包括**类**、**对象**、**继承**、**封装**和**多态**。
+
+##### 2.1 **类（Class）**
+
+类是对象的蓝图或模板，用于定义对象的属性和方法。在ES6之前，JavaScript通过构造函数实现类的功能。ES6引入了`class`关键字，使得定义类更加直观。
+
+**示例**：
+```javascript
+class Person {
+  constructor(name, age) {
+    this.name = name;
+    this.age = age;
+  }
+
+  greet() {
+    console.log("Hello, " + this.name);
+  }
+}
+
+let person1 = new Person("Dave", 28);
+person1.greet(); // 输出: Hello, Dave
+```
+在这个例子中，`Person`是一个类，通过`new`关键字可以创建类的实例。
+
+##### 2.2 **继承（Inheritance）**
+
+继承是OOP的重要特性，允许一个类继承另一个类的属性和方法。继承使得代码重用更加方便。
+
+**示例**：
+```javascript
+class Animal {
+  constructor(name) {
+    this.name = name;
+  }
+
+  speak() {
+    console.log(this.name + " makes a noise.");
+  }
+}
+
+class Dog extends Animal {
+  speak() {
+    console.log(this.name + " barks.");
+  }
+}
+
+let dog = new Dog("Rex");
+dog.speak(); // 输出: Rex barks.
+```
+在这个例子中，`Dog`类继承了`Animal`类，并重写了`speak`方法。
+
+##### 2.3 **封装（Encapsulation）**
+
+封装是将对象的内部状态和实现细节隐藏起来，只暴露必要的接口给外部使用。JavaScript通过闭包和类的私有属性实现封装。
+
+**示例**：
+```javascript
+class Counter {
+  #count = 0; // 私有属性
+
+  increment() {
+    this.#count++;
+  }
+
+  getCount() {
+    return this.#count;
+  }
+}
+
+let counter = new Counter();
+counter.increment();
+console.log(counter.getCount()); // 输出: 1
+```
+在这个例子中，`#count`是一个私有属性，不能直接从类外部访问。
+
+##### 2.4 **多态（Polymorphism）**
+
+多态是指不同对象可以以不同的方式响应相同的方法调用。在JavaScript中，多态通常通过方法重写来实现。
+
+**示例**：
+```javascript
+class Shape {
+  area() {
+    return 0;
+  }
+}
+
+class Circle extends Shape {
+  constructor(radius) {
+    super();
+    this.radius = radius;
+  }
+
+  area() {
+    return Math.PI * this.radius ** 2;
+  }
+}
+
+class Rectangle extends Shape {
+  constructor(width, height) {
+    super();
+    this.width = width;
+    this.height = height;
+  }
+
+  area() {
+    return this.width * this.height;
+  }
+}
+
+let shapes = [new Circle(5), new Rectangle(4, 6)];
+shapes.forEach(shape => {
+  console.log(shape.area());
+});
+// 输出:
+// 78.53981633974483
+// 24
+```
+在这个例子中，`Circle`和`Rectangle`类都继承自`Shape`类，并重写了`area`方法。
+
+#### 3. **JavaScript中的原型链（Prototype Chain）**
+
+JavaScript使用原型链来实现继承。每个对象都有一个`__proto__`属性，指向它的原型对象。类与对象通过原型链共享属性和方法。
+
+**示例**：
+```javascript
+function Person(name) {
+  this.name = name;
+}
+
+Person.prototype.greet = function() {
+  console.log("Hello, " + this.name);
+};
+
+let person1 = new Person("Alice");
+person1.greet(); // 输出: Hello, Alice
+```
+在这个例子中，`Person`的实例`person1`通过原型链访问了`greet`方法。
+
+#### 总结
+
+- **对象**是JavaScript中基本的数据结构，表示数据的集合。
+- **类**是面向对象编程中的核心概念，是对象的蓝图。
+- **继承**允许类继承其他类的属性和方法。
+- **封装**隐藏了对象的内部实现细节，只暴露必要的接口。
+- **多态**允许对象以不同的方式响应相同的方法调用。
+- **原型链**是JavaScript中实现继承的重要机制。
+
+
+
+### 原型与继承
+在JavaScript中，**原型（Prototype）**和**继承（Inheritance）**是实现对象复用和代码组织的核心机制。理解原型和继承对于编写高效、可维护的JavaScript代码至关重要。本文将详细介绍JavaScript中的原型系统、原型链以及如何通过不同的方式实现继承。
+
+---
+
+#### 1. **原型（Prototype）概述**
+
+##### 1.1 **什么是原型？**
+
+在JavaScript中，每个对象都有一个内部链接到另一个对象的引用，称为**原型**。这个原型对象可以为当前对象提供属性和方法。这种机制被称为**原型链（Prototype Chain）**，它使得对象能够继承另一个对象的属性和方法。
+
+##### 1.2 **`[[Prototype]]`与`prototype`**
+
+- **`[[Prototype]]`**：这是每个对象内部的属性，指向其原型对象。在现代浏览器中，可以通过`__proto__`访问，但不建议频繁使用。
+  
+- **`prototype`**：这是构造函数的一个属性，指向一个对象。当使用`new`关键字创建实例时，实例的`[[Prototype]]`会被设置为构造函数的`prototype`属性。
+
+##### 1.3 **示例**
+
+```javascript
+function Person(name) {
+  this.name = name;
+}
+
+Person.prototype.greet = function() {
+  console.log("Hello, " + this.name);
+};
+
+let alice = new Person("Alice");
+alice.greet(); // 输出: Hello, Alice
+
+console.log(alice.__proto__ === Person.prototype); // 输出: true
+```
+
+在这个例子中：
+
+- `Person`是一个构造函数，其`prototype`上定义了`greet`方法。
+- `alice`是`Person`的一个实例，其内部`[[Prototype]]`指向`Person.prototype`。
+- 因此，`alice`可以访问`greet`方法。
+
+---
+
+#### 2. **原型链（Prototype Chain）**
+
+##### 2.1 **定义**
+
+原型链是由一系列对象通过`[[Prototype]]`属性链接起来形成的层次结构。当访问一个对象的属性或方法时，如果该对象本身没有这个属性或方法，JavaScript引擎会沿着原型链向上查找，直到找到或达到链的末端（`null`）。
+
+##### 2.2 **示例**
+
+```javascript
+function Animal(name) {
+  this.name = name;
+}
+
+Animal.prototype.speak = function() {
+  console.log(this.name + " makes a noise.");
+};
+
+function Dog(name) {
+  Animal.call(this, name); // 继承Animal的属性
+}
+
+Dog.prototype = Object.create(Animal.prototype); // 继承Animal的原型方法
+Dog.prototype.constructor = Dog;
+
+Dog.prototype.bark = function() {
+  console.log(this.name + " barks.");
+};
+
+let rex = new Dog("Rex");
+rex.speak(); // 输出: Rex makes a noise.
+rex.bark();  // 输出: Rex barks.
+```
+
+在这个例子中：
+
+- `Dog`继承自`Animal`，通过`Object.create`设置`Dog.prototype`为`Animal.prototype`的一个副本。
+- `rex`作为`Dog`的实例，可以访问`Animal`的`speak`方法和`Dog`自己的`bark`方法。
+- 如果`rex`调用一个不存在的方法，如`rex.walk()`，JavaScript会继续沿着原型链查找，直到找到`walk`方法或到达链的末端。
+
+---
+
+#### 3. **实现继承的方式**
+
+在JavaScript中，有多种方式实现继承。以下是几种常见的方法：
+
+##### 3.1 **基于构造函数的继承**
+
+通过在子构造函数中调用父构造函数，可以继承父构造函数的属性。
+
+```javascript
+function Parent(name) {
+  this.name = name;
+}
+
+function Child(name, age) {
+  Parent.call(this, name); // 继承父构造函数的属性
+  this.age = age;
+}
+
+let child = new Child("Bob", 5);
+console.log(child.name); // 输出: Bob
+console.log(child.age);  // 输出: 5
+```
+
+**缺点**：
+
+- 方法需要在每个实例上重新创建，导致内存浪费。
+- 无法继承父类的原型方法。
+
+##### 3.2 **原型链继承**
+
+通过设置子类的原型为父类的实例，实现继承父类的属性和方法。
+
+```javascript
+function Parent(name) {
+  this.name = name;
+}
+
+Parent.prototype.sayName = function() {
+  console.log(this.name);
+};
+
+function Child(name, age) {
+  this.age = age;
+}
+
+Child.prototype = new Parent("Default Name"); // 继承父类的属性和方法
+Child.prototype.constructor = Child;
+
+let child = new Child("Charlie", 3);
+child.sayName(); // 输出: Default Name
+console.log(child.age); // 输出: 3
+```
+
+**缺点**：
+
+- 所有子类实例共享父类实例的引用类型属性，可能导致意外的副作用。
+- 无法向父类构造函数传递参数。
+
+##### 3.3 **组合继承（寄生组合继承）**
+
+结合构造函数继承和原型链继承的优点，避免各自的缺点。这是JavaScript中最常用的继承模式。
+
+```javascript
+function Parent(name) {
+  this.name = name;
+}
+
+Parent.prototype.sayName = function() {
+  console.log(this.name);
+};
+
+function Child(name, age) {
+  Parent.call(this, name); // 继承父类的属性
+  this.age = age;
+}
+
+Child.prototype = Object.create(Parent.prototype); // 继承父类的方法
+Child.prototype.constructor = Child;
+
+Child.prototype.sayAge = function() {
+  console.log(this.age);
+};
+
+let child = new Child("Dave", 4);
+child.sayName(); // 输出: Dave
+child.sayAge();  // 输出: 4
+```
+
+**优点**：
+
+- 解决了原型链继承的引用属性问题。
+- 不需要在子类原型上执行父类构造函数，避免了重复初始化。
+
+##### 3.4 **ES6 类（Class）继承**
+
+ES6引入了`class`和`extends`关键字，使得继承更加直观和简洁。实际上，ES6类是基于原型的语法糖。
+
+```javascript
+class Parent {
+  constructor(name) {
+    this.name = name;
+  }
+
+  sayName() {
+    console.log(this.name);
+  }
+}
+
+class Child extends Parent {
+  constructor(name, age) {
+    super(name); // 调用父类构造函数
+    this.age = age;
+  }
+
+  sayAge() {
+    console.log(this.age);
+  }
+}
+
+let child = new Child("Eve", 2);
+child.sayName(); // 输出: Eve
+child.sayAge();  // 输出: 2
+```
+
+**优点**：
+
+- 语法更简洁、易读。
+- 支持`super`关键字，便于调用父类方法。
+- 更接近其他面向对象编程语言的继承模式。
+
+##### 3.5 **ES6 原生`extends`继承内置对象**
+
+在ES6中，可以继承内置对象（如`Array`、`Error`等），这是在ES5中较为复杂的操作。
+
+```javascript
+class MyArray extends Array {
+  first() {
+    return this[0];
+  }
+}
+
+let arr = new MyArray(1, 2, 3);
+console.log(arr.first()); // 输出: 1
+console.log(arr instanceof MyArray); // 输出: true
+console.log(arr instanceof Array);    // 输出: true
+```
+
+**注意**：
+
+- 某些内置对象的继承可能存在特殊行为，需谨慎使用。
+
+---
+
+#### 4. **原型与类的关系**
+
+虽然ES6引入了`class`语法，但JavaScript仍然基于原型进行对象继承。`class`只是对原型继承的一种封装，提供了更接近传统面向对象语言的语法。
+
+##### 4.1 **类的本质**
+
+```javascript
+class Person {
+  constructor(name) {
+    this.name = name;
+  }
+
+  greet() {
+    console.log("Hello, " + this.name);
+  }
+}
+
+console.log(typeof Person); // 输出: function
+console.log(Person.prototype.constructor === Person); // 输出: true
+```
+
+可以看到，`class`实际上是构造函数的语法糖，其方法被添加到`prototype`上。
+
+##### 4.2 **类与原型链的结合**
+
+```javascript
+class Animal {
+  constructor(name) {
+    this.name = name;
+  }
+
+  speak() {
+    console.log(this.name + " makes a noise.");
+  }
+}
+
+class Dog extends Animal {
+  speak() {
+    console.log(this.name + " barks.");
+  }
+}
+
+let dog = new Dog("Rex");
+dog.speak(); // 输出: Rex barks.
+```
+
+在这个例子中：
+
+- `Dog`通过`extends`继承自`Animal`，实际上是设置了`Dog.prototype`为`Animal.prototype`的一个实例。
+- `Dog`的实例`dog`可以访问`Animal`的属性和方法。
+
+---
+
+#### 5. **原型链的工作机制**
+
+##### 5.1 **属性查找顺序**
+
+当访问对象的属性或方法时，JavaScript引擎遵循以下顺序进行查找：
+
+1. **自身属性**：首先查找对象本身是否具有该属性。
+2. **原型属性**：如果对象本身没有，查找其`[[Prototype]]`指向的原型对象。
+3. **原型链继续**：如果原型对象也没有，继续沿着原型链向上查找，直到找到或达到链的末端（`null`）。
+4. **未找到**：如果在整个原型链中都未找到，返回`undefined`。
+
+##### 5.2 **示例**
+
+```javascript
+let grandParent = {
+  surname: "Smith",
+  greet() {
+    console.log("Hello from grandParent");
+  }
+};
+
+let parent = Object.create(grandParent);
+parent.name = "John";
+parent.greet = function() {
+  console.log("Hello from parent");
+};
+
+let child = Object.create(parent);
+child.age = 10;
+
+child.greet();       // 输出: Hello from parent
+console.log(child.surname); // 输出: Smith
+console.log(child.age);      // 输出: 10
+console.log(child.unknown);  // 输出: undefined
+```
+
+在这个例子中：
+
+- `child`对象没有自己的`greet`方法，因此调用`parent`的`greet`方法。
+- `child`对象没有`name`属性，但可以访问`parent`的`name`属性。
+- `child`对象没有`surname`属性，但可以通过原型链访问`grandParent`的`surname`属性。
+- `child.unknown`在整个原型链中都未找到，返回`undefined`。
+
+---
+
+#### 6. **常见的原型与继承相关问题**
+
+##### 6.1 **修改原型的副作用**
+
+修改构造函数的原型会影响所有已存在的实例。
+
+```javascript
+function Person(name) {
+  this.name = name;
+}
+
+Person.prototype.greet = function() {
+  console.log("Hello, " + this.name);
+};
+
+let alice = new Person("Alice");
+alice.greet(); // 输出: Hello, Alice
+
+// 修改原型
+Person.prototype.greet = function() {
+  console.log("Hi, " + this.name);
+};
+
+alice.greet(); // 输出: Hi, Alice
+```
+
+**解决方法**：
+
+尽量在构造函数定义完成后一次性定义原型方法，避免在运行时频繁修改原型。
+
+##### 6.2 **原型污染**
+
+不小心修改对象的原型可能导致全局影响。
+
+```javascript
+Object.prototype.newProp = "This is bad";
+
+let obj = {};
+console.log(obj.newProp); // 输出: This is bad
+```
+
+**解决方法**：
+
+避免直接修改`Object.prototype`或其他内置对象的原型，除非确有必要。
+
+##### 6.3 **性能考虑**
+
+深层的原型链可能会影响属性查找的性能。
+
+**解决方法**：
+
+尽量保持原型链的层数适中，避免不必要的继承层级。
+
+---
+
+#### 7. **高级原型概念**
+
+##### 7.1 **`Object.getPrototypeOf` 与 `Object.setPrototypeOf`**
+
+- **`Object.getPrototypeOf(obj)`**：返回`obj`的原型对象。
+  
+- **`Object.setPrototypeOf(obj, prototype)`**：设置`obj`的原型对象（不推荐频繁使用，因为可能影响性能）。
+
+**示例**：
+
+```javascript
+let obj = {};
+let proto = { greet() { console.log("Hello"); } };
+
+Object.setPrototypeOf(obj, proto);
+obj.greet(); // 输出: Hello
+
+console.log(Object.getPrototypeOf(obj) === proto); // 输出: true
+```
+
+### 7.2 **`hasOwnProperty` 方法**
+
+用于判断属性是否为对象自身的属性，而非继承自原型链。
+
+```javascript
+let obj = { a: 1 };
+console.log(obj.hasOwnProperty('a')); // 输出: true
+console.log(obj.hasOwnProperty('toString')); // 输出: false
+```
+
+##### 7.3 **`isPrototypeOf` 方法**
+
+用于判断一个对象是否存在于另一个对象的原型链中。
+
+```javascript
+function Parent() {}
+function Child() {}
+
+Child.prototype = Object.create(Parent.prototype);
+
+let child = new Child();
+
+console.log(Parent.prototype.isPrototypeOf(child)); // 输出: true
+console.log(Child.prototype.isPrototypeOf(child));  // 输出: true
+```
+
+---
+
+#### 8. **闭包与原型的结合**
+
+闭包和原型都是JavaScript中强大的概念，结合使用可以实现更灵活的对象设计。
+
+##### 8.1 **示例：私有变量与原型方法**
+
+通过闭包实现私有变量，同时在原型上定义方法，以节省内存。
+
+```javascript
+function Person(name) {
+  let _name = name; // 私有变量
+
+  this.getName = function() {
+    return _name;
+  };
+}
+
+// 在原型上定义方法
+Person.prototype.greet = function() {
+  console.log("Hello, " + this.getName());
+};
+
+let person = new Person("Frank");
+person.greet(); // 输出: Hello, Frank
+console.log(person._name); // 输出: undefined
+```
+
+**优点**：
+
+- `getName`方法允许访问私有变量`_name`。
+- `greet`方法在原型上定义，所有实例共享，节省内存。
+
+---
+
+#### 9. **总结**
+
+- **原型（Prototype）**：每个对象都有一个指向原型对象的内部链接，原型对象可以提供共享的属性和方法。
+  
+- **原型链（Prototype Chain）**：通过`[[Prototype]]`属性链接一系列对象，形成查找属性和方法的链条。
+
+- **继承（Inheritance）**：JavaScript通过原型链实现对象之间的继承，使得对象能够复用和扩展功能。
+
+- **实现继承的方式**：
+  - **构造函数继承**：通过在子构造函数中调用父构造函数，继承属性。
+  - **原型链继承**：通过设置子类的原型为父类的实例，继承方法。
+  - **组合继承**：结合构造函数继承和原型链继承，避免各自的缺点。
+  - **ES6 类继承**：使用`class`和`extends`语法，实现更简洁的继承模式。
+
+- **注意事项**：
+  - 避免直接修改内置对象的原型。
+  - 保持原型链的层数适中，避免性能问题。
+  - 理解原型和类的关系，善用`class`语法提升代码可读性。
+
+掌握JavaScript的原型和继承机制，不仅有助于理解语言的底层工作原理，还能提升代码的组织和复用能力，是成为高级JavaScript开发者的重要一步。
+
+### 内置对象
+JavaScript中的内置对象是语言中已经预定义好的对象和构造函数，可以直接在代码中使用。它们提供了处理各种数据类型和执行常见操作的方法和属性。JavaScript内置对象包括以下几类：
+
+---
+
+#### 1. **基本数据类型的包装对象**
+
+JavaScript提供了一些包装对象，用于操作基本数据类型（字符串、数字、布尔值等）：
+
+##### 1.1 **String**
+- **描述**：用于处理和操作字符串。
+- **示例**：
+  ```javascript
+  let str = "Hello, world!";
+  console.log(str.length); // 输出: 13
+  console.log(str.toUpperCase()); // 输出: HELLO, WORLD!
+  ```
+
+##### 1.2 **Number**
+- **描述**：用于处理和操作数值（包括整数和浮点数）。
+- **示例**：
+  ```javascript
+  let num = 42;
+  console.log(num.toFixed(2)); // 输出: 42.00
+  ```
+
+##### 1.3 **Boolean**
+- **描述**：用于处理布尔值（`true`或`false`）。
+- **示例**：
+  ```javascript
+  let isTrue = new Boolean(true);
+  console.log(isTrue.valueOf()); // 输出: true
+  ```
+
+##### 1.4 **Symbol**
+- **描述**：表示唯一的标识符，常用于对象属性名的唯一性。
+- **示例**：
+  ```javascript
+  let sym = Symbol("unique");
+  console.log(typeof sym); // 输出: symbol
+  ```
+
+##### 1.5 **BigInt**
+- **描述**：用于表示任意精度的大整数。
+- **示例**：
+  ```javascript
+  let bigInt = 1234567890123456789012345678901234567890n;
+  console.log(bigInt + 1n); // 输出: 1234567890123456789012345678901234567891n
+  ```
+
+---
+
+#### 2. **集合对象**
+
+这些对象用于存储和操作一组值：
+
+##### 2.1 **Array**
+- **描述**：用于存储有序的元素集合，可以是任何数据类型。
+- **示例**：
+  ```javascript
+  let arr = [1, 2, 3];
+  arr.push(4);
+  console.log(arr); // 输出: [1, 2, 3, 4]
+  ```
+
+##### 2.2 **Map**
+- **描述**：用于存储键值对，其中键可以是任何数据类型。
+- **示例**：
+  ```javascript
+  let map = new Map();
+  map.set('name', 'Alice');
+  console.log(map.get('name')); // 输出: Alice
+  ```
+
+##### 2.3 **Set**
+- **描述**：用于存储唯一值的集合，无重复元素。
+- **示例**：
+  ```javascript
+  let set = new Set([1, 2, 2, 3]);
+  console.log(set); // 输出: Set(3) { 1, 2, 3 }
+  ```
+
+##### 2.4 **WeakMap**
+- **描述**：类似于`Map`，但键必须是对象，且键是弱引用（不会阻止垃圾回收）。
+- **示例**：
+  ```javascript
+  let weakMap = new WeakMap();
+  let obj = {};
+  weakMap.set(obj, 'value');
+  console.log(weakMap.get(obj)); // 输出: value
+  ```
+
+##### 2.5 **WeakSet**
+- **描述**：类似于`Set`，但只能存储对象的集合，且对象是弱引用。
+- **示例**：
+  ```javascript
+  let weakSet = new WeakSet();
+  let obj = {};
+  weakSet.add(obj);
+  console.log(weakSet.has(obj)); // 输出: true
+  ```
+
+---
+
+#### 3. **日期和时间对象**
+
+##### 3.1 **Date**
+- **描述**：用于处理日期和时间。
+- **示例**：
+  ```javascript
+  let now = new Date();
+  console.log(now.toISOString()); // 输出当前日期和时间的ISO字符串表示
+  ```
+
+---
+
+#### 4. **数学和计算对象**
+
+##### 4.1 **Math**
+- **描述**：提供了数学常数和函数（如`Math.PI`，`Math.random()`，`Math.floor()`等）。
+- **示例**：
+  ```javascript
+  console.log(Math.PI); // 输出: 3.141592653589793
+  console.log(Math.sqrt(16)); // 输出: 4
+  ```
+
+##### 4.2 **Number**
+- **描述**：提供与数字相关的属性和方法（如`Number.MAX_VALUE`，`Number.isInteger()`等）。
+- **示例**：
+  ```javascript
+  console.log(Number.MAX_SAFE_INTEGER); // 输出: 9007199254740991
+  console.log(Number.isInteger(42)); // 输出: true
+  ```
+
+##### 4.3 **BigInt**
+- **描述**：用于表示任意精度的整数，并提供与大整数相关的操作。
+- **示例**：
+  ```javascript
+  let bigInt = 12345678901234567890n;
+  console.log(bigInt * 2n); // 输出: 24691357802469135780n
+  ```
+
+---
+
+#### 5. **正则表达式**
+
+##### 5.1 **RegExp**
+- **描述**：用于模式匹配字符串（如搜索、替换等操作）。
+- **示例**：
+  ```javascript
+  let regex = /hello/i;
+  console.log(regex.test("Hello, world!")); // 输出: true
+  ```
+
+---
+
+#### 6. **错误处理对象**
+
+##### 6.1 **Error**
+- **描述**：创建一个错误对象，可以抛出并捕获错误。
+- **示例**：
+  ```javascript
+  try {
+    throw new Error("Something went wrong!");
+  } catch (e) {
+    console.log(e.message); // 输出: Something went wrong!
+  }
+  ```
+
+##### 6.2 **其他错误类型**
+- **`TypeError`**：表示变量或参数不是预期类型时的错误。
+- **`ReferenceError`**：表示引用了不存在的变量时的错误。
+- **`SyntaxError`**：表示代码中存在语法错误。
+- **`RangeError`**：表示一个数值超出允许的范围。
+
+---
+
+#### 7. **全局对象**
+
+##### 7.1 **GlobalThis**
+- **描述**：提供一种标准方式访问不同环境下的全局对象（如浏览器中的`window`，Node.js中的`global`）。
+- **示例**：
+  ```javascript
+  console.log(globalThis); // 浏览器中输出: Window对象，Node.js中输出: global对象
+  ```
+
+##### 7.2 **`Infinity`, `NaN`, `undefined`**
+- **`Infinity`**：表示正无穷大。
+  ```javascript
+  console.log(1 / 0); // 输出: Infinity
+  ```
+
+- **`NaN`**：表示非数字值。
+  ```javascript
+  console.log(Math.sqrt(-1)); // 输出: NaN
+  ```
+
+- **`undefined`**：表示未定义的值。
+  ```javascript
+  let x;
+  console.log(x); // 输出: undefined
+  ```
+
+---
+
+#### 8. **JSON 对象**
+
+##### 8.1 **JSON**
+- **描述**：用于解析和字符串化JSON数据（JavaScript对象表示法）。
+- **示例**：
+  ```javascript
+  let jsonString = '{"name": "John", "age": 30}';
+  let obj = JSON.parse(jsonString);
+  console.log(obj.name); // 输出: John
+
+  let newJsonString = JSON.stringify(obj);
+  console.log(newJsonString); // 输出: {"name":"John","age":30}
+  ```
+
+---
+
+#### 9. **其他内置对象**
+
+##### 9.1 **Promise**
+- **描述**：用于处理异步操作的对象。
+- **示例**：
+  ```javascript
+  let promise = new Promise((resolve, reject) => {
+    setTimeout(() => resolve("Done!"), 1000);
+  });
+  promise.then(result => console.log(result)); // 输出: Done!
+  ```
+
+##### 9.2 **Function**
+- **描述**：函数的构造函数，所有函数都是`Function`对象的实例。
+- **示例**：
+  ```javascript
+  let func = new Function('a', 'b', 'return a + b');
+  console.log(func(2, 3)); // 输出: 5
+  ```
+
+##### 9.3 **Object**
+- **描述**：所有对象的基类，提供通用的方法（如`Object.keys()`，`Object.create()`等）。
+- **示例**：
+  ```javascript
+  let obj = { a: 1, b: 2 };
+  console.log(Object.keys(obj)); // 输出: ['a', 'b']
+  ```
+
+---
+
 
 ### 高级概念
 
