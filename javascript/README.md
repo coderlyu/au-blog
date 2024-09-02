@@ -1746,11 +1746,638 @@ JavaScript中的作用域（Scope）决定了变量、函数和对象的可访�
 
 
 ### 事件循环与异步编程
+JavaScript 中的事件循环（Event Loop）和异步编程是该语言的核心机制，尤其在处理 I/O 操作、计时器、用户交互等情况下。理解它们对于编写高效、响应迅速的 JavaScript 代码至关重要。
+
+#### 1. **事件循环 (Event Loop)**
+事件循环是 JavaScript 处理异步操作的机制。它使 JavaScript 能够在执行长时间运行的任务（如 I/O 操作）时，仍然保持对用户的响应。
+
+##### **单线程与异步**
+- JavaScript 是单线程的，这意味着它一次只能执行一个任务。这个线程通常被称为主线程。
+- 单线程环境下，如果一个操作（如文件读取或网络请求）阻塞了主线程，用户界面将无法响应。因此，JavaScript 引入了异步编程模型，以非阻塞方式处理这些操作。
+
+##### **工作流程**
+1. **调用栈 (Call Stack)**:
+   - 调用栈是 JavaScript 引擎用来记录函数调用的栈结构。每当一个函数被调用时，它就被压入栈顶；当函数返回时，它就被弹出栈。
+   
+2. **Web APIs**:
+   - JavaScript 通过浏览器提供的 Web API（如 `setTimeout`、DOM 事件、`fetch`）执行异步操作。这些操作在完成后将回调函数发送到任务队列（或消息队列）。
+   
+3. **任务队列 (Task Queue) / 消息队列 (Message Queue)**:
+   - 异步操作的回调函数被放入任务队列中，等待调用栈为空时被处理。
+   
+4. **事件循环 (Event Loop)**:
+   - 事件循环持续地检查调用栈是否为空。如果为空，事件循环会从任务队列中取出第一个任务并将其压入调用栈执行。这个过程不断重复，确保异步代码在适当的时候执行。
+
+##### **示例**
+```javascript
+console.log("Start");
+
+setTimeout(() => {
+    console.log("Timeout callback");
+}, 0);
+
+console.log("End");
+```
+
+**输出顺序**：
+```
+Start
+End
+Timeout callback
+```
+
+尽管 `setTimeout` 的延迟为 0 毫秒，它的回调仍然被放入任务队列，等待主线程完成当前任务后再执行。
+
+#### 2. **异步编程模型**
+异步编程使得 JavaScript 能够处理长时间运行的任务而不阻塞主线程。常见的异步编程模型有以下几种：
+
+##### **回调函数 (Callbacks)**
+- 回调函数是最简单的异步编程方式。一个函数执行完异步操作后，将回调函数作为参数传递给另一函数，异步操作完成后回调函数会被调用。
+  
+**示例**：
+```javascript
+function fetchData(callback) {
+    setTimeout(() => {
+        callback("Data received");
+    }, 1000);
+}
+
+fetchData((data) => {
+    console.log(data);
+});
+```
+
+**缺点**：当回调嵌套过多时，会形成“回调地狱”，使代码难以维护。
+
+##### **Promise**
+- `Promise` 对象用于表示异步操作的最终完成（或失败）及其结果值。`Promise` 提供了更清晰的异步代码组织方式，避免了“回调地狱”。
+
+**示例**：
+```javascript
+let promise = new Promise((resolve, reject) => {
+    setTimeout(() => {
+        resolve("Data received");
+    }, 1000);
+});
+
+promise.then((data) => {
+    console.log(data);
+}).catch((error) => {
+    console.error(error);
+});
+```
+
+- **状态**：
+  - `pending`：初始状态，操作未完成。
+  - `fulfilled`：操作成功完成。
+  - `rejected`：操作失败。
+
+##### **async/await**
+- `async` 和 `await` 是基于 `Promise` 的语法糖，使异步代码看起来像同步代码，从而提高代码的可读性。
+
+**示例**：
+```javascript
+function fetchData() {
+    return new Promise((resolve) => {
+        setTimeout(() => {
+            resolve("Data received");
+        }, 1000);
+    });
+}
+
+async function getData() {
+    const data = await fetchData();
+    console.log(data);
+}
+
+getData();
+```
+
+- **优势**：
+  - `async/await` 使得处理异步操作更加直观，同时允许你使用 `try/catch` 进行错误处理。
+  
+**注意**：`await` 关键字只能在标记为 `async` 的函数内部使用。
+
+#### 3. **微任务 (Microtasks)**
+- **描述**：微任务是比任务（通常称为宏任务）优先级更高的异步任务。常见的微任务包括 `Promise` 的 `.then()` 和 `catch()` 处理程序。
+  
+- **执行顺序**：
+  1. 当调用栈为空时，事件循环首先检查微任务队列。
+  2. 如果微任务队列为空，才会执行任务队列中的任务。
+
+**示例**：
+```javascript
+console.log("Start");
+
+Promise.resolve().then(() => {
+    console.log("Microtask");
+});
+
+setTimeout(() => {
+    console.log("Timeout callback");
+}, 0);
+
+console.log("End");
+```
+
+**输出顺序**：
+```
+Start
+End
+Microtask
+Timeout callback
+```
+
+`Promise` 的微任务在 `setTimeout` 的任务之前执行。
+
+---
+
+#### 总结
+- **事件循环** 是 JavaScript 中处理异步操作的核心机制。
+- **异步编程模型** 提供了多种处理异步任务的方式，包括回调函数、`Promise`、以及 `async/await`。
+- 理解事件循环和异步编程有助于编写高效且用户友好的 JavaScript 代码。
+
 
 ## DOM 操作与事件
 
+在JavaScript中，DOM操作与事件处理是前端开发的核心部分。这些操作让开发者能够与网页的结构和用户交互直接进行交互，从而实现动态和互动性。
+
+### 1. **DOM 操作**
+
+**DOM**（文档对象模型，Document Object Model）是HTML文档的编程接口。它将网页结构表示为一棵树，其中的每个节点都是文档的一部分，如元素、属性或文本。JavaScript可以通过DOM操作来动态地修改网页内容和结构。
+
+#### **常见的DOM操作**
+
+1. **访问和修改元素**
+   - **获取元素**：
+     - `document.getElementById(id)`：通过元素的ID获取单个元素。
+     - `document.getElementsByClassName(className)`：通过类名获取一组元素。
+     - `document.getElementsByTagName(tagName)`：通过标签名获取一组元素。
+     - `document.querySelector(selector)`：通过CSS选择器获取第一个匹配的元素。
+     - `document.querySelectorAll(selector)`：通过CSS选择器获取所有匹配的元素。
+     
+     **示例**：
+     ```javascript
+     var element = document.getElementById("myElement");
+     ```
+
+   - **修改元素内容**：
+     - `element.textContent`：修改元素的文本内容。
+     - `element.innerHTML`：修改元素的HTML内容。
+     
+     **示例**：
+     ```javascript
+     element.textContent = "New Text";
+     element.innerHTML = "<p>New HTML content</p>";
+     ```
+
+   - **修改属性**：
+     - `element.setAttribute(attributeName, value)`：设置元素的属性。
+     - `element.getAttribute(attributeName)`：获取元素的属性。
+     - `element.removeAttribute(attributeName)`：移除元素的属性。
+     
+     **示例**：
+     ```javascript
+     element.setAttribute("class", "newClass");
+     ```
+
+2. **创建和删除元素**
+   - **创建元素**：
+     - `document.createElement(tagName)`：创建一个新的HTML元素。
+     
+     **示例**：
+     ```javascript
+     var newElement = document.createElement("div");
+     newElement.textContent = "Hello World!";
+     ```
+
+   - **插入元素**：
+     - `parentElement.appendChild(newElement)`：将新元素插入到父元素中。
+     - `parentElement.insertBefore(newElement, referenceElement)`：将新元素插入到参考元素之前。
+     
+     **示例**：
+     ```javascript
+     var parentElement = document.getElementById("parent");
+     parentElement.appendChild(newElement);
+     ```
+
+   - **删除元素**：
+     - `parentElement.removeChild(childElement)`：从父元素中删除子元素。
+     
+     **示例**：
+     ```javascript
+     parentElement.removeChild(newElement);
+     ```
+
+3. **修改样式**
+   - **通过style属性**：直接在元素的`style`属性上修改CSS样式。
+   
+   **示例**：
+   ```javascript
+   element.style.color = "red";
+   element.style.backgroundColor = "blue";
+   ```
+
+   - **修改类名**：
+     - `element.classList.add(className)`：添加一个类名。
+     - `element.classList.remove(className)`：移除一个类名。
+     - `element.classList.toggle(className)`：切换一个类名的存在与否。
+     
+     **示例**：
+     ```javascript
+     element.classList.add("highlight");
+     ```
+
+### 2. **事件处理**
+
+**事件**是用户或浏览器执行的操作，比如点击、加载、键盘输入等。事件处理允许开发者在这些操作发生时执行特定的代码。
+
+#### **常见事件类型**
+
+1. **鼠标事件**：
+   - `click`：当用户点击元素时触发。
+   - `dblclick`：当用户双击元素时触发。
+   - `mouseover`：当鼠标指针移入元素时触发。
+   - `mouseout`：当鼠标指针移出元素时触发。
+
+2. **键盘事件**：
+   - `keydown`：当用户按下键盘按键时触发。
+   - `keyup`：当用户松开键盘按键时触发。
+   - `keypress`：当用户按下并松开按键时触发（已经被 `keydown` 和 `keyup` 代替）。
+
+3. **表单事件**：
+   - `submit`：当用户提交表单时触发。
+   - `change`：当表单元素的值改变时触发。
+   - `input`：当用户输入内容时触发（比 `change` 更即时）。
+   - `focus`：当元素获得焦点时触发。
+   - `blur`：当元素失去焦点时触发。
+
+4. **其他事件**：
+   - `load`：当页面或图像完全加载时触发。
+   - `resize`：当窗口大小改变时触发。
+   - `scroll`：当用户滚动页面或元素时触发。
+
+#### **事件监听与处理**
+
+1. **添加事件监听器**
+   - `element.addEventListener(eventType, callback)`：向元素添加事件监听器，当事件触发时执行回调函数。
+   
+   **示例**：
+   ```javascript
+   var button = document.getElementById("myButton");
+   button.addEventListener("click", function() {
+       alert("Button clicked!");
+   });
+   ```
+
+2. **移除事件监听器**
+   - `element.removeEventListener(eventType, callback)`：移除事件监听器。
+   
+   **示例**：
+   ```javascript
+   function handleClick() {
+       alert("Button clicked!");
+   }
+   
+   button.addEventListener("click", handleClick);
+   button.removeEventListener("click", handleClick);
+   ```
+
+3. **事件对象**
+   - 当事件触发时，JavaScript 会自动传递一个事件对象给事件处理函数，包含事件的相关信息。
+   
+   **常见属性**：
+   - `event.target`：触发事件的元素。
+   - `event.type`：事件的类型（如 `click`、`keydown`）。
+   - `event.preventDefault()`：阻止默认行为（如表单提交或链接跳转）。
+   - `event.stopPropagation()`：阻止事件冒泡，即不让事件继续传递给父元素。
+   
+   **示例**：
+   ```javascript
+   button.addEventListener("click", function(event) {
+       console.log(event.target); // 输出触发事件的元素
+       event.preventDefault(); // 阻止按钮默认行为
+   });
+   ```
+
+4. **事件冒泡与捕获**
+   - **事件冒泡**：事件从目标元素向上传播，直至 `document` 对象，即由内向外传播。
+   - **事件捕获**：事件从 `document` 对象向下传播，直到目标元素，即由外向内传播。
+   - 可以通过 `addEventListener` 的第三个参数控制事件监听器在冒泡阶段或捕获阶段触发（默认为冒泡阶段）。
+
+   **示例**：
+   ```javascript
+   document.getElementById("parent").addEventListener("click", function() {
+       console.log("Parent clicked");
+   }, true); // true 表示在捕获阶段触发
+   ```
+
+### 3. **结合DOM操作与事件处理**
+
+JavaScript强大的地方在于将DOM操作与事件处理结合，使得网页能够响应用户的交互，从而实现动态的用户体验。
+
+**示例：点击按钮动态添加元素**
+```javascript
+var button = document.getElementById("addButton");
+
+button.addEventListener("click", function() {
+    var newElement = document.createElement("p");
+    newElement.textContent = "New paragraph added!";
+    document.body.appendChild(newElement);
+});
+```
+
+点击按钮后，页面上会动态添加一个新的段落。
+
+---
+
 ## ES6+ 新特性
+ES6（ECMAScript 2015）及其后的版本（ES7、ES8等）为JavaScript引入了许多新的特性和改进，极大地提升了语言的功能性和开发体验。以下是一些重要的ES6+新特性：
+
+### 1. 块级作用域 (`let` 和 `const`)
+- **`let`** 和 **`const`** 引入了块级作用域，取代了传统的函数作用域，使变量声明更加严格和安全。
+- **`let`** 允许声明变量，且这些变量可以被重新赋值。
+- **`const`** 声明常量，且在赋值后不能再修改。
+
+### 2. 箭头函数 (`Arrow Functions`)
+- 箭头函数是更简洁的函数定义方式，语法上使用 `=>`，并且箭头函数不绑定 `this`，它会继承外层作用域的 `this` 值。
+
+```javascript
+const add = (a, b) => a + b;
+```
+
+### 3. 模板字面量 (Template Literals)
+- 模板字面量允许在字符串中嵌入表达式，使用反引号 (`` ` ``) 包裹字符串，并使用 `${}` 包含表达式。
+
+```javascript
+const name = 'World';
+console.log(`Hello, ${name}!`); // 输出: Hello, World!
+```
+
+### 4. 解构赋值 (Destructuring Assignment)
+- 解构赋值允许从数组或对象中提取值并将其赋值给变量，语法简洁。
+
+```javascript
+const [a, b] = [1, 2];
+const {name, age} = {name: 'Alice', age: 25};
+```
+
+### 5. 扩展运算符 (`...`)
+- 扩展运算符用于展开数组或对象，方便参数传递和数组、对象的拷贝。
+
+```javascript
+const arr = [1, 2, 3];
+const newArr = [...arr, 4, 5];
+```
+
+### 6. 默认参数值 (Default Parameters)
+- 在函数定义时可以为参数指定默认值，如果调用时未传递该参数，则使用默认值。
+
+```javascript
+function greet(name = 'Guest') {
+  return `Hello, ${name}!`;
+}
+```
+
+### 7. 模块化 (`import` 和 `export`)
+- ES6 引入了模块系统，使用 `import` 和 `export` 可以在不同的文件间导入和导出代码。
+
+```javascript
+// utils.js
+export const add = (a, b) => a + b;
+
+// main.js
+import { add } from './utils';
+console.log(add(2, 3)); // 输出: 5
+```
+
+### 8. 类 (`class`)
+- ES6 引入了类语法，提供了一种更接近面向对象编程的方式来定义对象和继承。
+
+```javascript
+class Person {
+  constructor(name) {
+    this.name = name;
+  }
+  
+  greet() {
+    return `Hello, ${this.name}!`;
+  }
+}
+
+class Student extends Person {
+  constructor(name, age) {
+    super(name);
+    this.age = age;
+  }
+  
+  introduce() {
+    return `I am ${this.name}, ${this.age} years old.`;
+  }
+}
+```
+
+### 9. `Promise` 和 异步编程
+- `Promise` 对象用于处理异步操作，避免了回调地狱的问题。
+- ES8 引入了 `async` 和 `await` 关键字，简化了异步代码的写法。
+
+```javascript
+const fetchData = async () => {
+  try {
+    const response = await fetch('https://api.example.com/data');
+    const data = await response.json();
+    console.log(data);
+  } catch (error) {
+    console.error(error);
+  }
+};
+```
+
+### 10. 其他重要特性
+- **符号 (Symbol)**：一种新的原始数据类型，表示唯一且不可变的值。
+- **`Map` 和 `Set` 数据结构**：`Map` 是键值对的集合，`Set` 是值的集合，且值唯一。
+- **可选链 (`?.`) 和空值合并运算符 (`??`)**：简化对深层嵌套属性的访问和处理 `null` 或 `undefined` 值。
+
 
 ## 错误处理与调试
+在JavaScript中，错误处理与调试是开发过程中非常重要的部分。它们帮助开发者识别、捕捉并处理代码中的问题，确保应用程序的稳定性和正确性。
+
+### 1. 错误处理
+JavaScript提供了多种方式来处理运行时错误，包括`try...catch`语句、`throw`语句、自定义错误以及使用`Promise`和`async/await`处理异步错误。
+
+#### 1.1 `try...catch` 语句
+`try...catch`语句用于捕获在`try`块中抛出的异常，并在`catch`块中处理它。可选的`finally`块用于在错误处理后执行清理代码，无论是否发生错误。
+
+```javascript
+try {
+    // 可能会抛出错误的代码
+    let result = someFunction();
+} catch (error) {
+    // 处理错误
+    console.error('An error occurred:', error.message);
+} finally {
+    // 始终会执行的代码
+    console.log('This will run regardless of an error.');
+}
+```
+
+#### 1.2 `throw` 语句
+`throw`语句用于手动抛出一个异常，可以是字符串、数字、布尔值或对象（通常是`Error`对象）。
+
+```javascript
+function checkAge(age) {
+    if (age < 18) {
+        throw new Error('Age must be at least 18.');
+    }
+    return 'Age is valid';
+}
+
+try {
+    checkAge(16);
+} catch (error) {
+    console.error(error.message); // 输出: Age must be at least 18.
+}
+```
+
+#### 1.3 自定义错误类型
+除了内置的`Error`类型外，JavaScript允许开发者创建自定义的错误类型，通过继承`Error`类来实现。
+
+```javascript
+class ValidationError extends Error {
+    constructor(message) {
+        super(message);
+        this.name = 'ValidationError';
+    }
+}
+
+function validateUser(user) {
+    if (!user.name) {
+        throw new ValidationError('Name is required');
+    }
+    // 其他验证逻辑...
+}
+```
+
+#### 1.4 异步错误处理
+使用`Promise`处理异步代码时，可以通过`.catch()`方法捕获错误；使用`async/await`时，则需要配合`try...catch`来处理可能出现的错误。
+
+```javascript
+// 使用Promise的错误处理
+fetch('https://api.example.com/data')
+    .then(response => response.json())
+    .catch(error => console.error('Fetch error:', error));
+
+// 使用async/await的错误处理
+async function fetchData() {
+    try {
+        let response = await fetch('https://api.example.com/data');
+        let data = await response.json();
+        console.log(data);
+    } catch (error) {
+        console.error('Fetch error:', error);
+    }
+}
+```
+
+### 2. 调试
+
+JavaScript调试是识别代码中的错误和逻辑缺陷的过程，常用的调试技术包括使用`console`语句、断点调试以及使用开发工具（如Chrome DevTools）。
+
+#### 2.1 `console` 语句
+最简单和常用的调试方法是使用`console`对象的各种方法在控制台输出信息。
+
+- **`console.log()`**: 打印一般信息。
+- **`console.error()`**: 打印错误信息。
+- **`console.warn()`**: 打印警告信息。
+- **`console.table()`**: 以表格形式打印数组或对象。
+
+```javascript
+let user = { name: 'Alice', age: 25 };
+console.log('User info:', user);
+console.error('This is an error message');
+console.table([{name: 'Alice', age: 25}, {name: 'Bob', age: 30}]);
+```
+
+#### 2.2 断点调试
+大多数现代浏览器都提供了强大的开发者工具（如Chrome DevTools），允许开发者在代码中设置断点。当代码执行到断点时，会暂停执行，开发者可以逐步检查变量的状态和代码的运行情况。
+
+- **设置断点**: 在源代码中点击行号，可以设置或移除断点。
+- **检查变量**: 在调试面板中查看变量、调用堆栈和作用域的状态。
+- **步进执行**: 使用“步过（Step Over）”、“步入（Step Into）”和“步出（Step Out）”来逐行执行代码。
+
+#### 2.3 使用`debugger`语句
+`debugger`语句是一种手动设置断点的方法，当代码运行到`debugger`语句时，会自动暂停执行，类似于在开发者工具中设置断点。
+
+```javascript
+function calculate(a, b) {
+    debugger; // 代码在此处暂停
+    return a + b;
+}
+
+calculate(5, 3);
+```
+
+#### 2.4 使用开发者工具
+浏览器的开发者工具（如Chrome DevTools、Firefox Developer Tools）提供了强大的调试功能，包括元素检查、网络请求监控、性能分析和内存管理等。
+
+- **Elements**: 检查和编辑页面的HTML和CSS。
+- **Console**: 查看日志、执行JavaScript代码。
+- **Network**: 监控和分析网络请求。
+- **Performance**: 分析页面加载和渲染的性能瓶颈。
+- **Memory**: 检测内存泄漏和优化内存使用。
+
+
 
 ## 前端性能优化
+前端性能优化是提升网站或应用加载速度、交互响应时间以及整体用户体验的关键。优化前端性能的方法包括减少资源消耗、优化资源加载、提高渲染效率等。以下是常见的前端性能优化策略：
+
+### 1. 减少HTTP请求
+- **合并文件**：将多个CSS和JavaScript文件合并成一个文件，减少HTTP请求的数量。
+- **使用CSS Sprites**：将多个小图标合并成一张图片，通过`background-position`来显示不同的部分。
+- **使用字体图标**：使用字体图标（如Font Awesome）代替多个图像图标，以减少请求数量。
+
+### 2. 资源压缩与缩小
+- **压缩文件**：使用工具（如Gzip、Brotli）压缩HTML、CSS、JavaScript文件，减少文件大小。
+- **代码缩小**：通过Webpack、UglifyJS等工具删除代码中的空白、注释、未使用的代码，减少JavaScript和CSS文件的大小。
+- **图片优化**：使用现代图像格式（如WebP），并对图片进行无损或有损压缩，降低文件体积。
+
+### 3. 延迟加载与异步加载
+- **Lazy Loading**：对于页面中不立即显示的图片或视频，使用懒加载技术，在用户滚动到相应位置时才加载资源。
+- **异步加载脚本**：通过`async`或`defer`属性异步加载JavaScript脚本，避免阻塞页面渲染。
+
+```html
+<script src="script.js" async></script>
+<script src="script.js" defer></script>
+```
+
+### 4. 减少重排和重绘
+- **CSS 优化**：避免使用会导致重排的CSS属性（如`width`、`height`、`padding`），使用`transform`、`opacity`等不会触发重排的属性。
+- **避免频繁 DOM 操作**：合并多次对DOM的操作，避免频繁修改DOM结构。可以使用文档片段（Document Fragment）进行批量操作。
+- **使用虚拟 DOM**：React等框架通过虚拟DOM减少了直接操作真实DOM的次数，降低了重排和重绘的频率。
+
+### 5. 减少渲染阻塞
+- **CSS放在头部，JavaScript放在底部**：将CSS文件放在`<head>`中，确保样式优先加载，避免阻塞页面渲染。将JavaScript文件放在页面底部，或使用异步加载，避免阻塞页面内容的加载。
+- **关键CSS内联**：将关键的CSS直接内联在HTML中，确保页面首屏内容快速渲染。
+- **减少和优化第三方脚本**：第三方脚本（如广告、社交媒体插件）可能影响页面性能，尽量减少其使用，并将其异步加载。
+
+### 6. 使用内容分发网络（CDN）
+- **使用CDN**：将静态资源（如图片、CSS、JavaScript）托管在CDN上，利用CDN的全球分布节点，缩短资源传输的距离和时间，提高加载速度。
+
+### 7. 浏览器缓存
+- **设置缓存策略**：通过设置`Cache-Control`、`Expires`等HTTP头，让浏览器缓存静态资源，减少重复加载的请求。
+- **版本化资源**：对于需要更新的资源，通过文件名中的版本号（如`style.v1.css`）来管理缓存，使得更新后能够被立即加载。
+
+### 8. 使用现代前端技术
+- **Service Worker**：使用Service Worker实现资源的离线缓存、预加载，提高应用的性能和可靠性。
+- **HTTP/2**：采用HTTP/2协议，可以在单个TCP连接上并行加载多个资源，减少延迟并提高加载速度。
+- **Prefetching**：使用`<link rel="prefetch">`、`<link rel="preload">`标签提前加载后续页面需要的资源，减少跳转页面的加载时间。
+
+### 9. 优化页面渲染
+- **减少首屏渲染时间**：优化关键渲染路径，确保首屏内容尽快展示给用户。通过减少JavaScript的体积和CSS的复杂性来加快渲染。
+- **减少DOM节点数量**：页面中过多的DOM节点会增加渲染的开销，通过精简HTML结构和减少不必要的节点可以提高渲染速度。
+- **异步数据加载**：对于非关键的数据，可以在页面初始渲染后异步加载，避免阻塞首屏内容的展示。
+
+### 10. 性能监控与分析
+- **使用浏览器开发者工具**：通过Chrome DevTools等工具分析页面的性能瓶颈，查看网络请求、渲染时间、JavaScript执行时间等指标。
+- **使用性能监控工具**：借助Lighthouse、WebPageTest等工具定期监控和分析网站的性能表现，找出需要优化的地方。
+- **持续优化**：前端性能优化是一个持续的过程，需要根据监控结果和用户反馈不断进行改进。
