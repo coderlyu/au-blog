@@ -688,14 +688,720 @@ worker2.postMessage(dataChunk2, [dataChunk2]);
 
 ## 安全性与性能
 
-7. **WebSocket 的安全性如何保障？如何防止常见的 WebSocket 攻击，比如劫持、XSS 等？**
+### **WebSocket 的安全性如何保障？如何防止常见的 WebSocket 攻击，比如劫持、XSS 等？**
    - **深入点**: 如何使用 WSS（WebSocket Secure）来提升安全性？在 WebSocket 中如何实现用户认证与授权？
+WebSocket 提供了高效的双向通信，但也面临一系列安全风险。为了确保 WebSocket 通信的安全性，必须从协议层和应用层考虑各种安全策略。以下是保障 WebSocket 安全性的措施以及应对常见攻击的详细策略。
 
-8. **在高并发的场景下，如何优化 WebSocket 连接的性能？**
+#### 1. **WebSocket 常见安全威胁**
+
+##### 1.1 劫持攻击（Man-in-the-Middle Attack）
+在没有加密的情况下，攻击者可以通过中间人攻击拦截和篡改 WebSocket 通信内容。
+
+##### 1.2 XSS（跨站脚本攻击）
+攻击者通过在网页中注入恶意 JavaScript，利用 WebSocket 连接向服务器发送恶意数据。
+
+##### 1.3 CSRF（跨站请求伪造）
+攻击者利用受害者的身份发送未授权的 WebSocket 请求，从而执行不合法操作。
+
+##### 1.4 DOS 攻击（拒绝服务攻击）
+攻击者通过大量的连接请求或发送大量数据使 WebSocket 服务器无法正常工作。
+
+---
+
+#### 2. **使用 WSS（WebSocket Secure）提升安全性**
+
+`WSS` 是基于 `TLS/SSL` 的加密 WebSocket 通信协议，它通过加密传输的数据来防止中间人攻击（MITM）。WSS 是 HTTPs 上的 WebSocket 通道，在现代 Web 应用中必须使用加密通信，尤其是在敏感数据传输时。
+
+##### 2.1 如何使用 WSS：
+要使用 WSS，首先需要确保服务器和客户端都支持 HTTPS，并正确配置 TLS 证书。
+
+**客户端代码**：
+```javascript
+const socket = new WebSocket('wss://example.com/chat');
+```
+
+**服务器端**（Node.js 示例）：
+```javascript
+const https = require('https');
+const WebSocket = require('ws');
+const fs = require('fs');
+
+// 使用 TLS 证书创建 HTTPS 服务器
+const server = https.createServer({
+    cert: fs.readFileSync('/path/to/cert.pem'),
+    key: fs.readFileSync('/path/to/key.pem')
+});
+
+// 使用 WSS 协议创建 WebSocket 服务器
+const wss = new WebSocket.Server({ server });
+
+wss.on('connection', (ws) => {
+    ws.on('message', (message) => {
+        console.log('received:', message);
+    });
+    ws.send('Connection is secure!');
+});
+
+// 监听端口
+server.listen(443);
+```
+
+**WSS 的好处**：
+- **数据加密**：WSS 使用 TLS 加密传输数据，防止通信内容被窃听或篡改。
+- **身份验证**：TLS 还可以验证服务器的身份，防止中间人冒充服务器。
+- **完整性校验**：通过加密算法，保证数据未被篡改。
+
+---
+
+#### 3. **WebSocket 中的用户认证与授权**
+
+虽然 WebSocket 本身没有像 HTTP 那样的标准认证机制，但可以在建立 WebSocket 连接时或通过自定义消息进行用户认证与授权。常见的方式包括使用 JWT（JSON Web Token）、OAuth 或自定义的认证策略。
+
+##### 3.1 通过 URL 传递认证信息（例如 JWT）
+
+**通过连接 URL 传递认证令牌**：
+```javascript
+const socket = new WebSocket('wss://example.com/chat?token=your_jwt_token');
+```
+
+服务器在连接握手时，可以从 URL 的查询参数中提取 `token` 并进行验证。
+
+**服务器端验证 JWT**（Node.js 示例）：
+```javascript
+const url = require('url');
+const WebSocket = require('ws');
+const jwt = require('jsonwebtoken');
+
+// WebSocket 服务器
+const wss = new WebSocket.Server({ port: 8080 });
+
+wss.on('connection', (ws, req) => {
+    // 解析 URL 并获取 JWT token
+    const query = url.parse(req.url, true).query;
+    const token = query.token;
+    
+    // 验证 JWT token
+    jwt.verify(token, 'your_secret_key', (err, decoded) => {
+        if (err) {
+            ws.close(1008, 'Invalid token'); // 关闭连接
+        } else {
+            ws.user = decoded;
+            ws.send('Authentication successful!');
+        }
+    });
+});
+```
+
+##### 3.2 通过消息传递认证信息
+
+另一种方法是通过 WebSocket 的第一条消息传递认证信息，服务器在接收到消息后进行验证。
+
+**客户端发送认证消息**：
+```javascript
+const socket = new WebSocket('wss://example.com/chat');
+socket.onopen = function() {
+    socket.send(JSON.stringify({ type: 'auth', token: 'your_jwt_token' }));
+};
+```
+
+**服务器端处理认证**：
+```javascript
+wss.on('connection', (ws) => {
+    ws.on('message', (message) => {
+        const data = JSON.parse(message);
+        
+        if (data.type === 'auth') {
+            jwt.verify(data.token, 'your_secret_key', (err, decoded) => {
+                if (err) {
+                    ws.close(1008, 'Invalid token'); // 关闭连接
+                } else {
+                    ws.user = decoded;
+                    ws.send('Authentication successful!');
+                }
+            });
+        }
+    });
+});
+```
+
+##### 3.3 基于角色的权限控制
+
+在 WebSocket 中，通过用户的角色进行权限管理。例如，某些用户只能发送普通消息，而管理员可以执行特定的操作。
+
+**服务器端角色管理**：
+```javascript
+wss.on('connection', (ws) => {
+    ws.on('message', (message) => {
+        const data = JSON.parse(message);
+
+        if (ws.user.role === 'admin') {
+            // 只有管理员可以执行该操作
+            if (data.type === 'deleteMessage') {
+                // 删除消息逻辑
+            }
+        } else {
+            ws.send('Permission denied');
+        }
+    });
+});
+```
+
+---
+
+#### 4. **防止常见攻击的具体措施**
+
+##### 4.1 防止 XSS 攻击
+
+XSS 攻击通常是通过注入恶意 JavaScript 脚本实现的。为了防止这种攻击：
+- 在 WebSocket 消息处理时**严格校验**用户输入，避免直接执行用户提供的脚本。
+- 对所有用户输入进行**HTML 转义**，以防止恶意脚本在浏览器中执行。
+
+```javascript
+function sanitizeInput(input) {
+    return input.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+}
+```
+
+##### 4.2 防止 CSRF 攻击
+
+CSRF 攻击可以通过随机的来源发送 WebSocket 请求。为了防止这种攻击：
+- **同源策略**：通过验证 `Origin` 或 `Referer` 请求头来确保请求来自受信任的源。
+  
+**示例**：验证 `Origin` 请求头
+```javascript
+wss.on('connection', (ws, req) => {
+    const origin = req.headers.origin;
+    if (origin !== 'https://trustedwebsite.com') {
+        ws.close(1008, 'Invalid origin');
+    }
+});
+```
+
+##### 4.3 防止 DOS 攻击
+
+为了防止恶意用户利用 WebSocket 发送大量数据或发起 DOS 攻击，服务器应实现以下措施：
+- **连接速率限制**：限制每个用户的连接和消息发送速率，防止单个用户过载服务器。
+- **消息大小限制**：限制每条消息的大小，防止用户发送过大数据包。
+  
+**示例：消息大小限制**：
+```javascript
+wss.on('connection', (ws) => {
+    ws.on('message', (message) => {
+        if (message.length > 1024) { // 限制消息大小为 1KB
+            ws.close(1009, 'Message too large');
+        }
+    });
+});
+```
+
+##### 4.4 防止滥用连接
+
+- **用户身份验证**：通过 JWT 或其他方式验证用户身份，并对每个用户的连接数量进行限制，防止滥用连接资源。
+
+---
+
+#### 总结：
+- 使用 **WSS** 加密通信，防止数据被窃听和篡改。
+- 通过 **JWT** 或其他方式进行用户认证与授权，确保只有合法用户可以访问 WebSocket 服务。
+- 实施 **CSRF 防护**、**XSS 防护**、**速率限制** 和 **消息大小限制**，有效防御常见的 WebSocket 攻击。
+- 结合服务器和应用层的安全策略，构建一个健壮的 WebSocket 安全系统。
+
+这样可以最大限度地保障 WebSocket 应用在现实环境中的安全性。
+
+### **在高并发的场景下，如何优化 WebSocket 连接的性能？**
    - **深入点**: 请详细描述如何在前端和后端优化 WebSocket 消息的处理，例如批量处理、消息去重、连接管理等。
+在高并发场景下，WebSocket 连接需要进行多方面的优化，以确保性能和稳定性。前端和后端都可以通过合理的设计来提升 WebSocket 的效率。以下是一些关键优化策略：
 
-9. **当使用 WebSocket 建立连接时，如何处理连接超时或断开的问题？**
+#### 1. **前端优化 WebSocket 连接的策略**
+
+##### 1.1 **消息批量处理（Batching Messages）**
+
+在高并发场景下，频繁发送小消息会增加网络开销和服务器负载。因此，前端可以将多条消息批量发送，而不是逐条发送。这可以通过消息队列机制来实现：
+
+```javascript
+let messageQueue = [];
+let isSending = false;
+
+function sendMessage(message) {
+    messageQueue.push(message);
+
+    if (!isSending) {
+        isSending = true;
+        setTimeout(() => {
+            socket.send(JSON.stringify(messageQueue));
+            messageQueue = [];
+            isSending = false;
+        }, 100);  // 延迟 100 毫秒进行批量发送
+    }
+}
+```
+
+**优点**：减少 WebSocket 帧的频繁传输，提高网络传输效率。
+
+##### 1.2 **消息去重（Message Deduplication）**
+
+如果应用中存在重复的消息发送或接收情况，可以在前端对消息进行去重。常见方法是为每条消息分配一个唯一的 `id`，通过缓存和比对 `id` 的方式去重：
+
+```javascript
+let receivedMessages = new Set();
+
+function handleIncomingMessage(message) {
+    const parsedMessage = JSON.parse(message.data);
+
+    if (!receivedMessages.has(parsedMessage.id)) {
+        receivedMessages.add(parsedMessage.id);
+        processMessage(parsedMessage);
+    }
+}
+```
+
+**优点**：避免重复处理同一条消息，降低计算和通信的开销。
+
+##### 1.3 **连接管理（Connection Management）**
+
+在前端需要维护多个 WebSocket 连接时，可以通过**连接池**机制对连接进行复用和管理，避免频繁创建和销毁 WebSocket 连接。
+
+- **连接池**：预先维护一个 WebSocket 连接池，动态分配 WebSocket 连接给不同的请求或通道。
+
+```javascript
+const pool = [];
+const maxConnections = 5;
+
+function getConnection() {
+    if (pool.length < maxConnections) {
+        const socket = new WebSocket('wss://example.com');
+        pool.push(socket);
+        return socket;
+    } else {
+        return pool[Math.floor(Math.random() * pool.length)];
+    }
+}
+```
+
+**优点**：减少连接建立和关闭的频率，减少 WebSocket 握手的开销。
+
+##### 1.4 **压缩数据**
+
+在高并发和大流量场景下，前端可以使用**数据压缩**技术来减少消息的大小。例如，可以使用 Gzip 或 Brotli 压缩文本消息，或者在传输前压缩 JSON 数据结构：
+
+```javascript
+const compressedMessage = pako.deflate(JSON.stringify(data));
+socket.send(compressedMessage);
+```
+
+**优点**：通过压缩减少数据包的大小，提升网络传输效率。
+
+---
+
+#### 2. **后端优化 WebSocket 处理的策略**
+
+##### 2.1 **消息批量处理**
+
+与前端类似，后端也可以通过批量处理消息来提升性能。在高并发环境下，后端可以将短时间内的多个请求合并为一个批次进行处理。
+
+- **批量发送响应**：可以将多条消息放入一个数组中，合并成一个响应消息。
+- **批量数据库写入**：如果消息需要写入数据库，采用批量写入可以减少 I/O 开销。
+
+```javascript
+const messagesToProcess = [];
+let isProcessing = false;
+
+function processMessagesInBatch() {
+    if (!isProcessing) {
+        isProcessing = true;
+        setTimeout(() => {
+            // 批量处理消息
+            handleBatch(messagesToProcess);
+            messagesToProcess = [];
+            isProcessing = false;
+        }, 100);  // 每 100 毫秒处理一次消息
+    }
+}
+
+wss.on('message', (message) => {
+    messagesToProcess.push(message);
+    processMessagesInBatch();
+});
+```
+
+**优点**：减少每次处理单个消息的开销，提升系统吞吐量。
+
+##### 2.2 **消息去重**
+
+在后端，需要确保每条消息都只处理一次，尤其是在高并发环境下可能会有重复消息。可以通过消息的唯一标识符（如 `messageId`）进行去重。
+
+- **基于 Redis 的去重机制**：后端可以使用 Redis 或类似的缓存系统存储消息的唯一标识符，避免重复处理。
+
+```javascript
+const processedMessages = new Set();
+
+function handleMessage(message) {
+    const messageId = message.id;
+
+    if (!processedMessages.has(messageId)) {
+        processedMessages.add(messageId);
+        processMessage(message);
+    }
+}
+```
+
+**优点**：确保消息的唯一性，防止重复处理浪费资源。
+
+##### 2.3 **连接管理**
+
+对于高并发的 WebSocket 服务器，管理大量连接是一项挑战。后端可以通过以下方式进行优化：
+
+- **负载均衡**：使用负载均衡器（如 Nginx、HAProxy）将连接分发到多个 WebSocket 服务器实例，确保各个服务器实例的负载均匀。
+- **WebSocket 连接池**：通过建立连接池来管理与不同客户端的 WebSocket 连接，并根据需要分配连接给新请求。
+- **限流与连接数控制**：为每个 IP 地址或用户设置连接限制，防止恶意用户创建大量连接占用服务器资源。
+
+```javascript
+// 限制每个 IP 最大连接数
+const maxConnectionsPerIp = 100;
+const connectionsPerIp = {};
+
+wss.on('connection', (ws, req) => {
+    const ip = req.socket.remoteAddress;
+    connectionsPerIp[ip] = (connectionsPerIp[ip] || 0) + 1;
+
+    if (connectionsPerIp[ip] > maxConnectionsPerIp) {
+        ws.close(1008, 'Too many connections from this IP');
+        return;
+    }
+
+    ws.on('close', () => {
+        connectionsPerIp[ip]--;
+    });
+});
+```
+
+**优点**：有效管理 WebSocket 连接，防止服务器资源被滥用。
+
+##### 2.4 **分布式消息队列**
+
+在高并发场景下，WebSocket 服务器可能需要分发消息给多个客户端，使用分布式消息队列（如 Kafka、RabbitMQ）可以在后端优化消息的调度和分发。
+
+- **消息队列**：将 WebSocket 收到的消息放入消息队列，利用消息队列的高吞吐能力和消息持久化功能，确保消息的可靠性。
+
+```javascript
+const kafka = require('kafka-node');
+const Producer = kafka.Producer;
+const client = new kafka.KafkaClient();
+const producer = new Producer(client);
+
+wss.on('connection', (ws) => {
+    ws.on('message', (message) => {
+        producer.send([{ topic: 'websocket-messages', messages: message }], (err, data) => {
+            if (err) console.error(err);
+        });
+    });
+});
+```
+
+**优点**：通过消息队列解耦 WebSocket 服务器和其他后端服务，提升系统的可扩展性和容错性。
+
+##### 2.5 **水平扩展与负载均衡**
+
+- **水平扩展**：通过增加 WebSocket 服务器实例进行横向扩展，并将连接分布到不同的服务器节点。
+- **Session 共享**：使用 Redis 或其他集中式缓存来存储 WebSocket 会话信息，确保多个服务器实例之间共享会话状态。
+
+```javascript
+const sessionStore = new RedisSessionStore();
+
+wss.on('connection', (ws) => {
+    sessionStore.saveSession(ws.sessionId, ws);
+});
+```
+
+**优点**：通过扩展服务器处理能力来应对大规模并发请求，同时保证不同服务器节点之间的状态一致性。
+
+---
+
+#### 总结：
+
+- **前端优化**：通过消息批量发送、去重、连接池和数据压缩来减少 WebSocket 的传输频率和大小，提升性能。
+- **后端优化**：通过批量处理、去重、负载均衡、消息队列和水平扩展来提升服务器的吞吐能力，保障高并发场景下的稳定性。
+
+这些优化策略可以帮助 WebSocket 应用在面对大量并发请求时保持高效和稳定。
+
+### **当使用 WebSocket 建立连接时，如何处理连接超时或断开的问题？**
    - **深入点**: 详细描述在网络不稳定的环境下，如何设计重连策略，并如何处理可能的消息丢失或重复问题。
+在使用 WebSocket 建立连接时，网络的不稳定性是一个常见的挑战。为了保持用户体验良好，必须设计一个可靠的**重连策略**，并确保处理消息丢失或重复问题。以下是关于 WebSocket 连接超时或断开重连的策略和解决方案。
+
+#### 1. **处理连接超时或断开**
+
+##### 1.1 **连接超时检测**
+
+在建立 WebSocket 连接时，可以设置超时时间，确保在指定时间内没有收到服务器的响应时进行超时处理。前端可以通过 `setTimeout` 来检测连接是否成功建立：
+
+```javascript
+const TIMEOUT = 5000; // 5秒超时
+
+const socket = new WebSocket('wss://example.com');
+
+const connectionTimeout = setTimeout(() => {
+    console.error('Connection timed out');
+    socket.close(); // 关闭超时的连接
+}, TIMEOUT);
+
+socket.onopen = function() {
+    clearTimeout(connectionTimeout); // 连接成功后取消超时检测
+    console.log('Connection established');
+};
+```
+
+##### 1.2 **断开连接检测**
+
+WebSocket 提供了 `onclose` 事件来检测连接断开，可以在连接断开时记录断开原因并触发重连逻辑。
+
+```javascript
+socket.onclose = function(event) {
+    if (event.wasClean) {
+        console.log(`Connection closed cleanly, code=${event.code}, reason=${event.reason}`);
+    } else {
+        console.error('Connection unexpectedly closed'); // 非正常断开
+        attemptReconnect(); // 尝试重连
+    }
+};
+```
+
+---
+
+#### 2. **设计重连策略**
+
+网络不稳定时，设计一个有效的重连机制可以确保服务的可用性和稳定性。常用的重连策略包括：
+
+##### 2.1 **指数退避（Exponential Backoff）重连策略**
+
+重连不应立即进行，而是逐渐增加重连的等待时间，这样可以减少对服务器的压力，同时适应瞬时网络问题。指数退避策略是一种常见的重连方法。
+
+```javascript
+let reconnectAttempts = 0;
+
+function attemptReconnect() {
+    const delay = Math.min(1000 * Math.pow(2, reconnectAttempts), 30000); // 最大延迟 30 秒
+    console.log(`Attempting to reconnect in ${delay / 1000} seconds...`);
+
+    setTimeout(() => {
+        reconnectAttempts++;
+        socket = new WebSocket('wss://example.com');
+        setupWebSocketEvents(); // 重新绑定事件处理程序
+    }, delay);
+}
+```
+
+**优点**：
+- **减少负载**：避免频繁重连给服务器带来压力。
+- **自动适应网络恢复**：网络恢复时重连能够迅速恢复连接。
+
+##### 2.2 **固定时间间隔（Fixed Interval）重连策略**
+
+另一种常见的重连方式是固定的重连时间间隔，在每次断开后都以相同的时间间隔进行重连。
+
+```javascript
+const RECONNECT_INTERVAL = 5000; // 每 5 秒重连一次
+
+function attemptReconnect() {
+    setTimeout(() => {
+        console.log('Attempting to reconnect...');
+        socket = new WebSocket('wss://example.com');
+        setupWebSocketEvents(); // 重新绑定事件处理程序
+    }, RECONNECT_INTERVAL);
+}
+```
+
+**优点**：实现简单，适用于网络波动较小的环境。
+
+##### 2.3 **重连最大次数限制**
+
+为了避免无限制重连（可能导致服务器负载过重），可以设置重连次数上限，当达到最大次数时，放弃重连并提示用户。
+
+```javascript
+const MAX_RECONNECT_ATTEMPTS = 10;
+let reconnectAttempts = 0;
+
+function attemptReconnect() {
+    if (reconnectAttempts < MAX_RECONNECT_ATTEMPTS) {
+        reconnectAttempts++;
+        const delay = Math.min(1000 * Math.pow(2, reconnectAttempts), 30000);
+        setTimeout(() => {
+            socket = new WebSocket('wss://example.com');
+            setupWebSocketEvents();
+        }, delay);
+    } else {
+        console.error('Max reconnect attempts reached. Giving up.');
+    }
+}
+```
+
+---
+
+#### 3. **处理消息丢失和重复问题**
+
+在网络不稳定时，消息可能会丢失或重复。必须设计机制确保消息的可靠性。
+
+##### 3.1 **消息确认机制（Acknowledge Messages）**
+
+类似于 TCP 协议中的确认机制，可以设计 WebSocket 消息的确认机制。客户端发送消息后，服务器应返回一个确认消息，确保消息成功处理。
+
+- **客户端发送消息**时，附加一个唯一的 `messageId`：
+```javascript
+let messageId = 0;
+
+function sendMessage(message) {
+    const msg = { id: messageId++, data: message };
+    socket.send(JSON.stringify(msg));
+    // 将消息存储到一个待确认队列
+    pendingMessages.set(msg.id, msg);
+}
+```
+
+- **服务器端处理消息并确认**：
+```javascript
+wss.on('message', (message) => {
+    const parsedMessage = JSON.parse(message);
+    processMessage(parsedMessage.data);
+    // 发送确认消息
+    ws.send(JSON.stringify({ type: 'ack', id: parsedMessage.id }));
+});
+```
+
+- **客户端收到确认消息后**，从待确认队列中移除该消息：
+```javascript
+socket.onmessage = function(event) {
+    const message = JSON.parse(event.data);
+
+    if (message.type === 'ack') {
+        pendingMessages.delete(message.id); // 消息确认
+    }
+};
+```
+
+**优点**：通过确认机制保证消息的送达，防止消息丢失。
+
+##### 3.2 **消息重发机制**
+
+当消息未被确认时，可以设置超时重发机制，确保重要消息不会丢失。可以结合消息确认机制和定时器实现：
+
+```javascript
+const RESEND_TIMEOUT = 5000;
+
+function checkPendingMessages() {
+    pendingMessages.forEach((msg, id) => {
+        if (Date.now() - msg.timestamp > RESEND_TIMEOUT) {
+            console.log(`Resending message ${id}`);
+            socket.send(JSON.stringify(msg));
+            msg.timestamp = Date.now(); // 更新重发时间戳
+        }
+    });
+}
+
+setInterval(checkPendingMessages, 1000); // 每秒检查一次待确认消息
+```
+
+**优点**：保证未确认的消息会被重新发送，防止因网络问题导致的消息丢失。
+
+##### 3.3 **消息顺序保证（Message Ordering）**
+
+为了保证消息的顺序性，可以在每条消息中附加一个递增的 `sequenceId`，在服务器或客户端处理时确保顺序一致。
+
+- **客户端发送消息时**附带 `sequenceId`：
+```javascript
+let sequenceId = 0;
+
+function sendMessage(message) {
+    const msg = { sequenceId: sequenceId++, data: message };
+    socket.send(JSON.stringify(msg));
+}
+```
+
+- **服务器端根据 `sequenceId` 处理消息**：
+```javascript
+let lastSequenceId = -1;
+
+wss.on('message', (message) => {
+    const parsedMessage = JSON.parse(message);
+    
+    if (parsedMessage.sequenceId === lastSequenceId + 1) {
+        lastSequenceId = parsedMessage.sequenceId;
+        processMessage(parsedMessage.data);
+    } else {
+        console.warn('Out of order message received, discarding');
+    }
+});
+```
+
+**优点**：保证消息按顺序处理，避免乱序消息的影响。
+
+---
+
+#### 4. **综合示例：前端重连与消息处理**
+
+将上述策略综合在一起，可以设计出一个健壮的 WebSocket 重连与消息处理机制。
+
+```javascript
+let socket;
+let reconnectAttempts = 0;
+let pendingMessages = new Map();
+let messageId = 0;
+let sequenceId = 0;
+
+// 连接 WebSocket
+function connect() {
+    socket = new WebSocket('wss://example.com');
+    
+    // 设置事件处理
+    setupWebSocketEvents();
+}
+
+// 设置 WebSocket 事件处理
+function setupWebSocketEvents() {
+    socket.onopen = function() {
+        console.log('Connection established');
+        reconnectAttempts = 0;
+        // 发送待确认消息
+        pendingMessages.forEach((msg) => {
+            socket.send(JSON.stringify(msg));
+        });
+    };
+
+    socket.onclose = function(event) {
+        console.error('Connection closed, attempting to reconnect...');
+        attemptReconnect();
+    };
+
+    socket.onmessage = function(event) {
+        const message = JSON.parse(event.data);
+        if (message.type === 'ack') {
+            pendingMessages.delete(message.id); // 确认消息
+        } else if (message.sequenceId === sequenceId) {
+            sequenceId++;
+            processMessage(message.data); // 顺序处理消息
+        }
+    };
+}
+
+// 发送消息并加入待确认队列
+function sendMessage(message) {
+    const msg = { id: messageId++, sequenceId: sequenceId++, data: message, timestamp: Date.now() };
+    pendingMessages.set(msg.id, msg);
+    socket.send(JSON.stringify(msg));
+}
+
+// 尝试重连逻辑
+function attemptReconnect() {
+    const delay = Math.min(1000 * Math.pow(2, reconnectAttempts), 30000); // 指数退避
+    setTimeout(() => {
+        reconnectAttempts++;
+        connect();
+    }, delay);
+}
+
+// 初始化连接
+connect();
+```
+
+
 
 ## 综合与高级应用
 
