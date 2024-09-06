@@ -6,6 +6,33 @@
     <title>Document</title>
   </head>
   <body>
-    <script src="./javascript/coding/4.throttle.js"></script>
+    <!-- <script src="./javascript/coding/4.throttle.js"></script> -->
+     <script>
+      function test() {
+        function run() {
+          console.log("run", this);
+        }
+        run()
+      }
+      const a = {
+        test() {
+          console.log("a ---- >", this);
+          function run() {
+            console.log("run --- a ---- >", this);
+          }
+          run()
+          const run1 = () => {
+            console.log("run1 --- a ---- >", this);
+          }
+          run1()
+        }
+      }
+      test()
+      const b = () => {
+        console.log("b ---- >", this);
+        console.log(this)
+      };
+      b.bind(a)()
+     </script>
   </body>
 </html>

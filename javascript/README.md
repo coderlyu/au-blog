@@ -1,5 +1,10 @@
 # Javascript
 
+## 本地目录
+1. [面试题](./面试题/Basic.md)
+2. [算法笔试](./coding/READMD.md)
+3. [浅拷贝和深拷贝](./01.clone.md)
+
 ## 关键字
 [来源](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Lexical_grammar#%E5%85%B3%E9%94%AE%E5%AD%97)
 
