@@ -8,11 +8,11 @@
 ## 关键字
 [来源](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Lexical_grammar#%E5%85%B3%E9%94%AE%E5%AD%97)
 
-关键字是 JavaScript 中看起来像标识符但又具有特殊含义的标记。例如，在函数声明之前的 async 关键字表示该函数是异步的。
+- 关键字是 JavaScript 中看起来像标识符但又具有特殊含义的标记。例如，在函数声明之前的 async 关键字表示该函数是异步的。
 
-一些关键字是保留的，这意味着它们不能被用作变量声明、函数声明等的标识符。它们通常被称为保留字, [JavaScript中所有的保留字请看](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Lexical_grammar#%E4%BF%9D%E7%95%99%E5%AD%97)
+- 一些关键字是保留的，这意味着它们不能被用作变量声明、函数声明等的标识符。它们通常被称为保留字, [JavaScript中所有的保留字请看](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Lexical_grammar#%E4%BF%9D%E7%95%99%E5%AD%97)
 
-在JavaScript中，**关键字**和**保留字**是两个不同的概念，尽管它们都涉及到特定的词汇在代码中的使用限制。以下是它们的区别：
+- 在JavaScript中，**关键字**和**保留字**是两个不同的概念，尽管它们都涉及到特定的词汇在代码中的使用限制。以下是它们的区别：
 
 ### 1. 关键字（Keywords）
 - **定义**: 关键字是JavaScript语言的核心部分，它们具有特定的用途和功能。关键字直接参与代码的控制和操作，例如控制流程、定义变量和函数等。
@@ -35,10 +35,11 @@
 ### 变量声明 (var, let, const)
 
 - 块作用域是什么
-   1. 块是由 `{}` 界定的代码块。一个块存在于花括号中。花括号内的任何内容都是一个块
+   1. 块是由 `{}` 界定的代码块。一个块存在于花括号中。花括号内的任何内容都是一个块（对象除外）
 
 #### var
-在 `ES6` 出现之前常使用， 
+> 在 `ES6` 出现之前常使用
+
 1. var 声明的作用域是全局的或函数/局部的
 2. var 变量可以重新声明和更新
 3. var 的提升： 变量和函数声明在代码执行之前被移动到其作用域的顶部，并初始化为 `undefined`
@@ -68,13 +69,13 @@
 5. `BigInt`: BigInt 类型在 Javascript 中是一个数字的原始值，它可以表示任意大小的整数。使用 BigInt，你可以安全地存储和操作巨大的整数，甚至超过 Number 的安全整数限制（Number.MAX_SAFE_INTEGER）。
    1. BigInt 是通过将 n 附加到整数末尾或调用 BigInt() 函数来创建的。
    2. ```js
-    // BigInt
-    const x = BigInt(Number.MAX_SAFE_INTEGER); // 9007199254740991n
-    x + 1n === x + 2n; // false，因为 9007199254740992n 和 9007199254740993n 不相等
+      // BigInt
+      const x = BigInt(Number.MAX_SAFE_INTEGER); // 9007199254740991n
+      x + 1n === x + 2n; // false，因为 9007199254740992n 和 9007199254740993n 不相等
 
-    // Number
-    Number.MAX_SAFE_INTEGER + 1 === Number.MAX_SAFE_INTEGER + 2; // true，因为都等于 9007199254740992
-   ```
+      // Number
+      Number.MAX_SAFE_INTEGER + 1 === Number.MAX_SAFE_INTEGER + 2; // true，因为都等于 9007199254740992
+    ```
 6. `String`: JavaScript 字符串是不可变的。这意味着一旦字符串被创建，就不可能修改它（字符串方法基于当前字符串的内容创建一个新的字符串）
 7. `Symbol`: Symbol 是唯一并且不可变的原始值并且可以用来作为对象属性的键。symbol 的目的是去创建一个唯一属性键，保证不会与其他代码中的键产生冲突。
 8. `Object`: 在计算机科学中，对象（object）是指内存中的可以被标识符引用的一块区域。在 JavaScript 中，对象是唯一可变的值。
@@ -100,6 +101,7 @@
 [来源](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Data_structures#%E5%BC%BA%E5%88%B6%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2)
 
 > JavaScript 是一个弱类型语言。这意味着你经常可以使用与预期类型不同类型的值，并且该语言将为你转换它为正确的类型。
+
 
 1. 原始值强制转换：[原始值强制转换](https://tc39.es/ecma262/multipage/abstract-operations.html#sec-toprimitive)用于得到一个期望的原始值。`[Symbol.toPrimitive]("default") → valueOf() → toString()`
    1. 如果值已经是原始值，则此操作不会进行任何转换。
@@ -882,7 +884,7 @@ person1.greet(); // 输出: Hello, Alice
 
 
 ## 原型与继承
-在JavaScript中，**原型（Prototype）**和**继承（Inheritance）**是实现对象复用和代码组织的核心机制。理解原型和继承对于编写高效、可维护的JavaScript代码至关重要。本文将详细介绍JavaScript中的原型系统、原型链以及如何通过不同的方式实现继承。
+在JavaScript中，**原型（Prototype）** 和 **继承（Inheritance）** 是实现对象复用和代码组织的核心机制。理解原型和继承对于编写高效、可维护的JavaScript代码至关重要。本文将详细介绍JavaScript中的原型系统、原型链以及如何通过不同的方式实现继承。
 
 ---
 
