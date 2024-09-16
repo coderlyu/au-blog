@@ -1,6 +1,6 @@
 # Webpack
 
-> webpack5
+> [webpack5](https://webpack.js.org/concepts/)
 
 ## 内容导航
 
@@ -14,10 +14,16 @@ Webpack 是一个现代 JavaScript 应用程序的模块打包工具。它的主
 
 ## Webpack 的核心概念
 
+> [几个核心概念点](https://webpack.docschina.org/concepts/)
+
 1. **Entry（入口）**：Webpack 打包的起点，告诉 Webpack 从哪个文件开始解析依赖。
 2. **Output（输出）**：Webpack 打包后的文件输出位置和文件名。
 3. **Loaders（加载器）**：Webpack 用来处理项目中的不同类型文件（如转换 TypeScript 到 JavaScript，处理 CSS 等）。
 4. **Plugins（插件）**：扩展 Webpack 功能的工具，如优化打包结果，管理资源等。
+5. **模式**：通过选择 development, production 或 none 之中的一个，来设置 mode 参数，你可以启用 webpack 内置在相应环境下的优化。其默认值为 production。
+6. **浏览器兼容性**：Webpack 支持所有符合 [ES5 标准](https://compat-table.github.io/compat-table/es5/) 的浏览器（不支持 IE8 及以下版本）。webpack 的 import() 和 require.ensure() 需要 Promise。如果你想要支持旧版本浏览器，在使用这些表达式之前，还需要 [提前加载 polyfill](https://webpack.docschina.org/guides/shimming/)。
+
+7) **环境**：Webpack 5 运行于 Node.js v10.13.0+ 的版本。
 
 ## 基础使用
 
@@ -33,7 +39,7 @@ npm init -y
 
 这会创建一个新的项目文件夹，并生成一个`package.json`文件，这是 Node.js 项目的配置文件。
 
-#### 3.2 安装 Webpack 和 Webpack CLI
+#### 安装 Webpack 和 Webpack CLI
 
 接下来，安装 Webpack 和 Webpack CLI：
 
@@ -109,6 +115,188 @@ npm run build
 [Plugins 链接导航](./2.plugin.md)
 
 ### babel 编译
+
+#### typescript
+
+##### ts-loader
+
+1. 安装依赖
+
+```
+npm install --save-dev typescript ts-loader webpack webpack-cli
+```
+
+2. 创建 tsconfig.json：
+
+```json
+{
+  "compilerOptions": {
+    "target": "es5",
+    "module": "es6",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true
+  },
+  "include": ["src"]
+}
+```
+
+3. 配置 webpack.config.js：
+
+```js
+const path = require("path");
+
+module.exports = {
+  entry: "./src/index.ts",
+  output: {
+    filename: "bundle.js",
+    path: path.resolve(__dirname, "dist"),
+  },
+  resolve: {
+    extensions: [".ts", ".js"],
+  },
+  module: {
+    rules: [
+      {
+        test: /\.ts$/,
+        use: "ts-loader",
+        exclude: /node_modules/,
+      },
+    ],
+  },
+};
+```
+
+##### babel-loader
+
+1. 安装依赖
+
+```
+npm install --save-dev typescript @babel/core @babel/preset-env @babel/preset-typescript babel-loader webpack webpack-cli
+```
+
+2. 创建 babel.config.js：
+
+```js
+module.exports = {
+  presets: ["@babel/preset-env", "@babel/preset-typescript"],
+};
+```
+
+3. 创建 tsconfig.json：
+
+```json
+{
+  "compilerOptions": {
+    "target": "es5",
+    "module": "es6",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true
+  },
+  "include": ["src"]
+}
+```
+
+4. 配置 webpack.config.js：
+
+```js
+const path = require("path");
+
+module.exports = {
+  entry: "./src/index.ts",
+  output: {
+    filename: "bundle.js",
+    path: path.resolve(__dirname, "dist"),
+  },
+  resolve: {
+    extensions: [".ts", ".js"],
+  },
+  module: {
+    rules: [
+      {
+        test: /\.(ts|js)$/,
+        use: "babel-loader",
+        exclude: /node_modules/,
+      },
+    ],
+  },
+};
+```
+
+##### 组合使用 ts-loader 和 babel-loader
+
+这种方案先用 ts-loader 进行类型检查，然后用 babel-loader 进行转译，以充分利用 TypeScript 的类型检查功能和 Babel 的转译能力。
+
+1. 安装依赖
+
+```
+npm install --save-dev typescript @babel/core @babel/preset-env babel-loader ts-loader webpack webpack-cli
+```
+
+2. 创建 babel.config.js：
+
+```js
+module.exports = {
+  presets: ["@babel/preset-env"],
+};
+```
+
+3. 创建 tsconfig.json：
+
+```json
+{
+  "compilerOptions": {
+    "target": "es5",
+    "module": "es6",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true
+  },
+  "include": ["src"]
+}
+```
+
+4. 配置 webpack.config.js：
+
+```js
+const path = require("path");
+
+module.exports = {
+  entry: "./src/index.ts",
+  output: {
+    filename: "bundle.js",
+    path: path.resolve(__dirname, "dist"),
+  },
+  resolve: {
+    extensions: [".ts", ".js"],
+  },
+  module: {
+    rules: [
+      {
+        test: /\.ts$/,
+        use: [
+          {
+            loader: "babel-loader",
+          },
+          {
+            loader: "ts-loader",
+            options: {
+              transpileOnly: true,
+            },
+          },
+        ],
+        exclude: /node_modules/,
+      },
+    ],
+  },
+};
+```
+
+#### 语法降级（es5）
 
 ### Tree Shaking
 

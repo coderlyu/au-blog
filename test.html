@@ -6,6 +6,188 @@
     <title>Document</title>
   </head>
   <body>
-    <script src="./javascript/coding/4.throttle.js"></script>
+    <!-- <script src="./javascript/coding/4.throttle.js"></script> -->
+     <script>
+      Function.prototype.call = function(ctx, ...args) {
+        ctx = ctx || window;
+        const fn = Symbol();
+        ctx[fn] = this;
+        const result = ctx[fn](...args);
+        delete ctx[fn];
+        return result;
+      }
+      Function.prototype.apply = function(ctx, args) {
+        ctx = ctx || window;
+        const fn = Symbol();
+        ctx[fn] = this;
+        const result = ctx[fn](...args);
+        delete ctx[fn];
+        return result;
+      }
+      Function.prototype.bind = function(ctx, ...args) {
+        ctx = ctx || window;
+        const fn = Symbol();
+        ctx[fn] = this;
+        return function(...args2) {
+          const result = ctx[fn](...args, ...args2);
+          delete ctx[fn];
+          return result;
+        }
+      }
+      function New (fun, ...args) {
+        const obj = Object.create(fun.prototype);
+        const result = fun.call(obj, ...args);
+        return result instanceof Object ? result : obj;
+      }
+      function debounce(fn, delay) {
+        let timer = null;
+        return function(...args) {
+          if (timer) {
+            clearTimeout(timer);
+          }
+          timer = setTimeout(() => {
+            fn.apply(this, args);
+          }, delay);
+        }
+      } 
+
+      const sum = (arr, target) => {
+        arr.sort((a, b) => a - b);
+        let result = [];
+        for(let i = 0; i < arr.length; i ++) {
+          if(i > 0 && arr[i] === arr[i - 1]) {
+            continue;
+          }
+          let left = i + 1;
+          let right = arr.length - 1;
+          while(left < right) {
+            let sum = arr[i] + arr[left] + arr[right];
+            if(sum === target) {
+              result.push([arr[i], arr[left], arr[right]]);
+              while(left < right && arr[left] === arr[left + 1]) {
+                left ++;
+              }
+              while(left < right && arr[right] === arr[right - 1]) {
+                right --;
+              }
+              left ++;
+              right --; 
+            } else if(sum < target) {
+              left ++;
+            } else {
+              right --;
+            }
+          }
+        }
+        return result;
+      }
+
+      function bubbleSort(arr) {
+        let swapped;
+        for(let i = 0; i < arr.length; i++) {
+          swapped = false;
+          for(let j = 0; j < arr.length - i - 1; j ++) {
+            if(arr[j] > arr[j + 1]) {
+              swap(arr, j, j + 1);
+              swapped = true;
+            }
+          }
+          if(!swapped) { // // 如果没有交换，数组已经有序，提前结束
+            break;
+          }
+        }
+        function swap(arr, i, j) {
+          let temp = arr[i];
+          arr[i] = arr[j];
+          arr[j] = temp;
+        }
+        return arr
+      }
+
+      function insertSort(arr) {
+        for(let i = 1; i < arr.length; i++) {
+          let temp = arr[i]
+         let j = i - 1;
+         while(j >= 0 && arr[j] > temp) {
+           arr[j + 1] = arr[j];
+           j --;
+         }
+          arr[j + 1] = temp;
+        }
+        return arr
+      }
+
+      function selectSort(arr) {
+        let minIndex;
+        for(let i = 0; i < arr.length - 1; i++) {
+          minIndex = i;
+          for(let j = i + 1; j < arr.length; j++) {
+            if(arr[j] < arr[minIndex]) {
+              minIndex = j;
+            }
+          }
+          if(minIndex !== i) {
+            swap(arr, i, minIndex);
+          }
+        }
+        function swap(arr, i, j) {
+          let temp = arr[i];
+          arr[i] = arr[j];
+          arr[j] = temp;
+        }
+        return arr
+      }
+      function quickSort(arr) {
+        if(arr.length <= 1) {
+          return arr;
+        }
+        let mid = Math.floor(arr.length / 2)
+        let left = []
+        let right = []
+        let pivot = arr.splice(mid, 1)[0]
+        for(let i = 0; i < arr.length; i++) {
+          if(arr[i] < pivot) {
+            left.push(arr[i])
+          } else {
+            right.push(arr[i])
+          }
+        }
+        return quickSort(left).concat([pivot], quickSort(right))
+      }
+
+      function MergeSort(arr) {
+        if(arr.length <= 1) {
+          return arr;
+        }
+        let mid = Math.floor(arr.length / 2)
+        function merge(left, right) {
+          let result = []
+          while(left.length && right.length) {
+            if(left[0] <= right[0]) {
+              result.push(left.shift())
+            } else {
+              result.push(right.shift())
+            }
+          }
+          while(left.length) {
+            result.push(left.shift())
+          }
+          while(right.length) {
+            result.push(right.shift())
+          }
+          return result
+        }
+        return merge(MergeSort(arr.slice(0, mid)), MergeSort(arr.slice(mid)))
+      }
+
+      // TODO: 归并排序的原地排序
+      function mergeSortInPlace(arr, start, end) {
+        function mergeInPlace(arr, start, mid, end) {
+
+        }
+      }
+
+      
+     </script>
   </body>
 </html>
