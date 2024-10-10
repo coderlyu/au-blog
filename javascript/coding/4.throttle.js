@@ -22,23 +22,26 @@
 // }
 
 function throttle(func, wait) {
-  // your code here
   let waiting = false;
   let lastArgs = null;
+
+  function time() {
+    setTimeout(() => {
+      waiting = false;
+      if (lastArgs) {
+        func.apply(this, lastArgs);
+        waiting = true;
+        lastArgs = null;
+        time();
+      }
+    }, wait);
+  }
+
   return function (...args) {
     if (!waiting) {
       func.apply(this, args);
       waiting = true;
-      const time = () =>
-        setTimeout(() => {
-          waiting = false;
-          if (lastArgs) {
-            func.apply(this, lastArgs);
-            waiting = true;
-            lastArgs = null;
-            time();
-          }
-        }, wait);
+      time.call(this);
     } else {
       lastArgs = args;
     }
