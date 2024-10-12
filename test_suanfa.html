@@ -1,26 +1,41 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-</head>
-<body>
+  </head>
+  <body>
     <script>
-        // 树
-        // 递归 --- 深度优先
-        function deepTree(tree, arr = []) {  
-            if(!tree) {
-                return arr;
-            }
-            arr.push(tree.value);
-            if(tree.children) {
-                for(let i = 0; i < tree.children.length; i ++) {
-                    deepTree(tree.children[i], arr);
-                }
-            }
-            return arr
+      // 树
+      // 递归 --- 深度优先
+      function deepTree(tree, arr = []) {
+        if (!tree) {
+          return arr;
         }
+        arr.push(tree.value);
+        if (tree.children) {
+          for (let i = 0; i < tree.children.length; i++) {
+            deepTree(tree.children[i], arr);
+          }
+        }
+        return arr;
+      }
+      function popSort(arr) {
+        for (let i = 0; i < arr.length; i++) {
+          let swap = false;
+          for (let j = 0; i < arr.length - i - 1; j++) {
+            if (arr[j] > arr[j + 1]) {
+              const temp = arr[j];
+              arr[j] = arr[j + 1];
+              arr[j + 1] = temp;
+              swap = true;
+            }
+          }
+          if (!swap) break;
+        }
+        return arr;
+      }
     </script>
-</body>
+  </body>
 </html>
